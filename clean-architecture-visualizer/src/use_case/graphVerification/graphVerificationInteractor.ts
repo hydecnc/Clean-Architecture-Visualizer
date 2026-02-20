@@ -1,18 +1,18 @@
 import type { FileAccessInterface } from "../../data_access/fileAccessInterface.js";
 import type { ValidOutNeighbourAccessInterface } from "../../data_access/validOutNeighbourAccessInterface.js";
 import type { GraphVerificationInputBoundary } from "./graphVerificationInputBoundary.js";
-import type { cleanNode } from "../../entities/types/cleanNode.js";
+import type { cleanNode } from "../../types/cleanNode.js";
 
 import { useCaseGraph } from "../../entities/useCaseGraph.js";
 
 export class GraphVerificationInteractor implements GraphVerificationInputBoundary{
     private readonly _useCaseList: useCaseGraph[] = [];
     private readonly _internalDirectories = [
-        "entities",
         "use_case",
         "interface_adapters",
     ];
     private readonly _externalDirectories = [
+        "entities",
         "views",
         "data_access",
         "database",
@@ -32,6 +32,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
         await this._buildUseCaseGraphs();
         await this._developOutNeighbours();
         await this._verifyOutNeighbours();
+        console.log(this._useCaseList);
     }
 
     private async _buildFilePaths(): Promise<void> {

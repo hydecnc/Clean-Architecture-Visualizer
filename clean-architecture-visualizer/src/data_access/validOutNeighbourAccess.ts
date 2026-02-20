@@ -1,4 +1,4 @@
-import type { cleanNode } from "../entities/types/cleanNode.js";
+import type { cleanNode } from "../types/cleanNode.js";
 import type { ValidOutNeighbourAccessInterface } from "./validOutNeighbourAccessInterface.js";
 
 import outNeighbourMap from "./validOutNeighbours.json" with { type: "json" };

@@ -1,5 +1,5 @@
-import type { cleanNode } from "./types/cleanNode.js";
-import type { neighbourMap } from "./types/neighbourMap.js";
+import type { cleanNode } from "../types/cleanNode.js";
+import type { neighbourMap } from "../types/neighbourMap.js";
 
 export class useCaseGraph {
     private readonly _name: string;
