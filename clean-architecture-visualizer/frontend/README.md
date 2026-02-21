@@ -14,6 +14,12 @@ From the **clean-architecture-visualizer** project root (or anywhere after `npm 
 cave view <path/to/YourFile.java>
 ```
 
+e.g. from the package root:
+
+```bash
+cave view examples/helloworld.java
+```
+
 This will:
 
 1. Read the Java file
