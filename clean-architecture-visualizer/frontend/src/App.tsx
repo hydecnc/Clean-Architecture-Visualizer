@@ -15,8 +15,8 @@ const App: React.FC = () => {
                 <Route path='/learning' element={<LearningMode />} />
                 <Route path='/checker' element={<CheckerMode />} />
                 <Route path='/project-starter' element={<ProjectStarter />} />
-                <Route path='/use-case-interaction-diagram' element={<UseCaseInteractionDiagram />} />
-                <Route path='/use-case-interaction-code' element={<UseCaseInteractionCode />} />
+                <Route path='/use-case/:useCaseId/interaction/:interactionId/diagram' element={<UseCaseInteractionDiagram />} />
+                <Route path='/use-case/:useCaseId/interaction/:interactionId/code' element={<UseCaseInteractionCode />} />
                 {/* Add other routes here */}
             </Routes>
         </Router>

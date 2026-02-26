@@ -131,7 +131,7 @@ const CheckerMode: React.FC = () => {
                                     {(useCase.interactions ?? []).map((interaction: Interaction) => (
                                         <li key={interaction.interaction_id} style={{ margin: '8px 0' }}>
                                             <Link
-                                                to={`/use-case/${useCase.id}/interaction/${interaction.interaction_id}`}
+                                                to={`/use-case/${useCase.id}/interaction/${interaction.interaction_id}/diagram`}
                                                 style={{ textDecoration: 'underline', color: '#1976d2', fontSize: 17 }}
                                             >
                                                 {interaction.interaction_name}
