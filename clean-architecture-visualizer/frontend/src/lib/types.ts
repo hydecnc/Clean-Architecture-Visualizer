@@ -73,3 +73,21 @@ export interface AnalysisSummary {
   total_violations: number; 
   use_cases: UseCase[]; 
 }
+
+// --- CodeView Types ---
+export interface FileNode {
+  id: string;
+  name: string;
+  type: 'directory' | 'file';
+  path: string;
+  children?: FileNode[];
+  hasViolation?: boolean;
+  layer?: string;
+}
+
+export interface FileContent {
+  file_path: string;
+  content: string;
+  language: string;
+  lines_with_violations: number[];
+}
