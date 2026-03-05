@@ -1,5 +1,5 @@
 import type { FileAccessInterface } from "../../data_access/fileAccessInterface.js";
-import type { ValidOutNeighbourAccessInterface } from "../../data_access/validOutNeighbourAccessInterface.js";
+import type { CleanArchInfoAccessInterface } from "../../data_access/cleanArchInfoAccessInterface.js";
 import type { GraphVerificationInputBoundary } from "./graphVerificationInputBoundary.js";
 import type { cleanNode } from "../../types/cleanNode.js";
 
@@ -23,7 +23,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
 
     constructor(
         private readonly fileAccess: FileAccessInterface,
-        private readonly validOutNeighbourAccess: ValidOutNeighbourAccessInterface,
+        private readonly cleanArchInfoAccess: CleanArchInfoAccessInterface,
         private readonly useCaseGraphList: useCaseGraph[] = []
     ) {}
 
@@ -102,7 +102,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
                 }
             }
         }
-    } 
+    }
 
     /**
      * Given an import path, decide which node this file belongs to.
@@ -149,7 +149,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
      * Verify that a usecase's outneighbours are allowed by Clean Architecture.
      */
     private async verifyOutNeighbours(): Promise<void> {
-        const validMap = await this.validOutNeighbourAccess.getValidOutNeighbours();
+        const validMap = await this.cleanArchInfoAccess.getValidOutNeighbours();
 
         for (const graph of this.useCaseGraphList) {
             for (const node of Object.keys(validMap) as cleanNode[]) {

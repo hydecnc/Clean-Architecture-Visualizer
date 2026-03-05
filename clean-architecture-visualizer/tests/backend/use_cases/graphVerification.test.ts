@@ -1,29 +1,29 @@
 import { GraphVerificationInteractor } from "../../../src/use_case/graphVerification/graphVerificationInteractor.js";
 import { FileAccess } from "../../../src/data_access/fileAccess.js";
-import { ValidOutNeighbourAccess } from "../../../src/data_access/validOutNeighbourAccess.js";
+import { CleanArchAccess } from "../../../src/data_access/cleanArchInfoAccess.js"
 
 import { useCaseGraph } from "../../../src/entities/useCaseGraph.js";
 
 const genericFileAccess = new FileAccess();
-const genericNeighbourAccess = new ValidOutNeighbourAccess();
+const genericNeighbourAccess = new CleanArchAccess();
 
 describe("Ensures that resolveLayer correctly identifies nodes from thier file path", () => {
 
     const genericInteractor = new GraphVerificationInteractor( genericFileAccess, genericNeighbourAccess);
     const testUseCase: [string, string][] = [
-        ["view",                "/src/views/test/testView.ts"],
-        ["viewModel",           "/src/views/test/testViewModel.ts"],
-        ["database",            "/src/database/test/testDatabase.ts"],
-        ["entities",            "/src/entities/test/testEntities.ts"],
+        ["view", "/src/views/test/testView.ts"],
+        ["viewModel", "/src/views/test/testViewModel.ts"],
+        ["database", "/src/database/test/testDatabase.ts"],
+        ["entities", "/src/entities/test/testEntities.ts"],
         ["dataAccessInterface", "/src/data_access/test/testAccessInterface.ts"],
-        ["dataAccess",          "/src/data_access/test/testAccess.ts"],
-        ["controller",          "/src/interface_adapters/test/testController.ts"],
-        ["presenter",           "/src/interface_adapters/test/testPresenter.ts"],
-        ["inputBoundary",       "/src/use_case/test/testInputBoundary.ts"],
-        ["inputData",           "/src/use_case/test/testInputData.ts"],
-        ["outputBoundary",      "/src/use_case/test/testOutputBoundary.ts"],
-        ["outputData",          "/src/use_case/test/testOutputData.ts"],
-        ["useCaseInteractor",   "/src/use_case/test/testInteractor.ts"],
+        ["dataAccess", "/src/data_access/test/testAccess.ts"],
+        ["controller", "/src/interface_adapters/test/testController.ts"],
+        ["presenter", "/src/interface_adapters/test/testPresenter.ts"],
+        ["inputBoundary", "/src/use_case/test/testInputBoundary.ts"],
+        ["inputData", "/src/use_case/test/testInputData.ts"],
+        ["outputBoundary", "/src/use_case/test/testOutputBoundary.ts"],
+        ["outputData", "/src/use_case/test/testOutputData.ts"],
+        ["useCaseInteractor", "/src/use_case/test/testInteractor.ts"],
     ];
     
     it.each(testUseCase)(

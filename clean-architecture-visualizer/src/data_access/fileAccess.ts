@@ -159,4 +159,17 @@ export class FileAccess implements FileAccessInterface {
 
         return result;
     }
+
+    /**
+     * Get the project name, this is either the directory BEFORE "src", or if the 
+     * process is running in a directory ABOVE "src" we assume that we are in the 
+     * project directory.
+     * @returns a string representing the project name.
+     */
+    async getProjectName(): Promise<string> {
+        const currPath = process.cwd().split("/");
+        // returns the index of src if in currPath, else returns -1
+        const srcIndex = currPath.indexOf("src");
+        return currPath[srcIndex];
+    }
 }

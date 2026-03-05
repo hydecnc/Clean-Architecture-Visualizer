@@ -1,5 +1,5 @@
 import type { FileAccess } from "../data_access/fileAccess.js";
-import type { ValidOutNeighbourAccess } from "../data_access/validOutNeighbourAccess.js";
+import type { CleanArchAccess } from "../data_access/cleanArchInfoAccess.js";
 
 import type { GraphVerificationController } from "../interface_adapter/graphVerification/graphVerificationController.js";
 import type { GraphVerificationInputBoundary } from "../use_case/graphVerification/graphVerificationInputBoundary.js";
@@ -7,7 +7,7 @@ import type { GraphVerificationInputBoundary } from "../use_case/graphVerificati
 
 export class AppBuilder {
     private fileAccess?: FileAccess;
-    private validOutNeighbourAccess?: ValidOutNeighbourAccess;
+    private validOutNeighbourAccess?: CleanArchAccess;
     private graphVerificationInteractor?: GraphVerificationInputBoundary;
     private graphVerificationController?: GraphVerificationController;
 
@@ -17,14 +17,14 @@ export class AppBuilder {
         return this;
     }
 
-    withValidOutNeighbourAccess(access: ValidOutNeighbourAccess): this {
+    withValidOutNeighbourAccess(access: CleanArchAccess): this {
         this.validOutNeighbourAccess = access;
         return this;
     }
 
     // Use Case Layer
     buildGraphVerificationInteractor(
-        InteractorClass: new (fileAccess: FileAccess, validOutNeighbourAccess: ValidOutNeighbourAccess) => GraphVerificationInputBoundary
+        InteractorClass: new (fileAccess: FileAccess, validOutNeighbourAccess: CleanArchAccess) => GraphVerificationInputBoundary
         ): this {
         if (!this.fileAccess || !this.validOutNeighbourAccess) {
             throw new Error("FileAccess and ValidOutNeighbourAccess must be set before building interactor");

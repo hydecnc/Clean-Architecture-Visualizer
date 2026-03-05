@@ -19,7 +19,7 @@ const PAYLOAD_PATH = path.join(
 const VIEWER_PORT = 5173;
 import { AppBuilder } from './appBuilder.js';
 import { FileAccess } from '../data_access/fileAccess.js';
-import { ValidOutNeighbourAccess } from '../data_access/validOutNeighbourAccess.js';
+import { CleanArchAccess } from '../data_access/cleanArchInfoAccess.js';
 import { GraphVerificationController } from '../interface_adapter/graphVerification/graphVerificationController.js';
 import { GraphVerificationInteractor } from '../use_case/graphVerification/graphVerificationInteractor.js';
 
@@ -27,7 +27,7 @@ const program = new Command();
 
 const app = new AppBuilder()
   .withFileAccess(new FileAccess())
-  .withValidOutNeighbourAccess(new ValidOutNeighbourAccess())
+  .withValidOutNeighbourAccess(new CleanArchAccess())
   .buildGraphVerificationInteractor(GraphVerificationInteractor)
   .buildGraphVerificationController(GraphVerificationController)
 
