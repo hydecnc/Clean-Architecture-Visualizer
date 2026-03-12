@@ -13,5 +13,6 @@ export type SessionData = {
         violationEdges: [cleanNode, cleanNode][],
         missingNodes: cleanNode[]
     }[],
-    files: Record<string, string>
+    files: Record<string, string>,
+    layers: Record<string, cleanNode>
 }

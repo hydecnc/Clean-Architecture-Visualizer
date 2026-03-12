@@ -1,25 +1,13 @@
-import type { APIInputBoundary } from "./apiInputBoundary.js";
+import type { GetProjectSummaryInputBoundary } from "./getProjectSummaryInputBoundary.js";
 import type { SessionDBAccessInterface } from "../../data_access/sessionDBAccessInterface.js";
-import type { CleanArchInfoAccessInterface } from "../../data_access/cleanArchInfoAccessInterface.js";
-import type { APIOutputData } from "./apiOutputData.js";
+import type { GetProjectSummaryOutputData } from "./getProjectSummaryOutputData.js";
 
-export class APIInteractor implements APIInputBoundary {
+export class APIInteractor implements GetProjectSummaryInputBoundary {
 
     constructor(
             private readonly db: SessionDBAccessInterface,
-            private readonly cleanArchAccess: CleanArchInfoAccessInterface,
-            private readonly outputData: APIOutputData
+            private readonly outputData: GetProjectSummaryOutputData
         ) {}
-
-    async getLearningMode(): Promise<void> {
-        let result: { [key: string]: any } = {}
-
-        // populate output JSON response
-        result.component_definitions = this.cleanArchAccess.getNodeInfo();
-        result.layer_info = this.cleanArchAccess.getLayerInfo();
-
-        this.outputData.setOutputData(result);
-    }
 
     async getProjectSummary(): Promise<void> {
         let result: { [key: string]: any } = {};

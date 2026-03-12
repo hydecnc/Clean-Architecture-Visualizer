@@ -1,9 +1,8 @@
 import type { SessionData } from "../types/sessionData.js";
 import type { useCaseGraph } from "../entities/useCaseGraph.js";
-
 import type { SessionDBAccessInterface } from "./sessionDBAccessInterface.js";
-
 import { SessionDB } from "../database/sessionDb.js";
+import type { cleanNode } from "../types/cleanNode.js";
 
 export class SessionDBAccess implements SessionDBAccessInterface {
     private readonly db: SessionDB<SessionData>;
@@ -48,6 +47,14 @@ export class SessionDBAccess implements SessionDBAccessInterface {
         })));
     }
 
+    setFiles(fileMap: Record<string, string>) {
+        this.db.set("files", fileMap);
+    }
+
+    setLayer(layerMap: Record<string, cleanNode>) {
+        this.db.set("layers", layerMap);
+    }
+
     // Getters
     getProjectName(): string {
         let name = this.db.get("projectName");
@@ -68,6 +75,14 @@ export class SessionDBAccess implements SessionDBAccessInterface {
     }
 
     getUseCaseInfo(id: string): SessionData["useCases"][number] | undefined {
-    return this.db.get("useCases")?.find(useCase => useCase.id === id);
-}
+        return this.db.get("useCases")?.find(useCase => useCase.id === id);
+    }
+
+    getFilePath(fileName: string): string | undefined {
+        return this.db.get("files")?.[fileName];
+    }
+
+    getLayer(fileName: string): cleanNode | undefined {
+        return this.db.get("layers")?.[fileName];
+    }
 }

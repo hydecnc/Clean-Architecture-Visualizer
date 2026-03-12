@@ -3,6 +3,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 import chalk from "chalk";
 
 import learningMode from "./routes/learningMode.js"
+import analysis from "./routes/analysis.js"
 
 const API_PORT  = 3131;
 const VITE_PORT = 5173;
@@ -13,6 +14,7 @@ export function startServer() {
 
   // Routes
   app.use("/api", learningMode);
+  app.use("/api", analysis);
 
   // Requests non - express related
   app.use(

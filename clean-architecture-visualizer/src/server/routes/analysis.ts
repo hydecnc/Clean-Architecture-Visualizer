@@ -14,9 +14,9 @@ const outputData = new APIOutputData();
 const interactor = new APIInteractor(dbAccess, cleanArchAccess, outputData);
 const controller = new APIController(interactor);
 
-router.get("/learning-mode/",  (_req, res) => {
+router.get("/analysis/summary",  (_req, res) => {
     const presenter = new APIPresenter(outputData);
-    controller.getLearningMode();
+    controller.getProjectSummary();
     res.json(presenter.getOutputData());
 })
 

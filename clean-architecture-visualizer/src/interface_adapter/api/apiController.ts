@@ -8,4 +8,8 @@ export class APIController {
     getLearningMode(): void {
         this.inputBoundary.getLearningMode();
     }
+
+    getProjectSummary(): void {
+        this.inputBoundary.getProjectSummary();
+    }
 }

@@ -3,7 +3,6 @@ import type { CleanArchInfoAccessInterface } from "../../data_access/cleanArchIn
 import type { SessionDBAccessInterface } from "../../data_access/sessionDBAccessInterface.js";
 import type { GraphVerificationInputBoundary } from "./graphVerificationInputBoundary.js";
 import type { cleanNode } from "../../types/cleanNode.js";
-
 import { useCaseGraph } from "../../entities/useCaseGraph.js";
 
 export class GraphVerificationInteractor implements GraphVerificationInputBoundary{
@@ -21,6 +20,9 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
     // Paths are defined as <File Name, File Path>
     private readonly internalFilePaths = new Map<string, string>();
     private readonly externalFilePaths = new Map<string, string>();
+
+    // The node of files <File Name, Node>
+    private readonly fileLayers : Record<string, cleanNode> = {};
 
     constructor(
         private readonly fileAccess: FileAccessInterface,
@@ -71,9 +73,10 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
     private async developOutNeighbours(): Promise<void> {
         
         for (const graph of this.useCaseGraphList) {
-            for (const [, filePath] of graph.getFiles()) {
+            for (const [fileName, filePath] of graph.getFiles()) {
                 const fromLayer = this.resolveLayer(filePath);
                 if (!fromLayer) continue;
+                this.fileLayers[fileName] = fromLayer;
                 const imports = await this.fileAccess.getFileImports(filePath);
                 for (const importPath of imports) {
                     const toLayer = this.resolveImportToLayer(this.internalFilePaths, importPath) ?? this.resolveImportToLayer(this.externalFilePaths, importPath);
@@ -84,13 +87,13 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
             }
         }
 
-        for (const [, filePath] of this.externalFilePaths) {
+        for (const [fileName, filePath] of this.externalFilePaths) {
             const fromLayer = this.resolveLayer(filePath);
             if (!fromLayer) continue;
-
+            this.fileLayers[fileName] = fromLayer;
             const imports = await this.fileAccess.getFileImports(filePath);
 
-            // Find all graphs that own any of this file's imports
+            // Find all graphs that own any (.some functionality) of this file's imports
             const owningGraphs = this.useCaseGraphList.filter(graph =>
                 imports.some(importPath =>
                     [...graph.getFiles().keys()].some(targetFileName =>
@@ -106,7 +109,9 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
                 for (const importPath of imports) {
                     const toLayer = this.resolveLayer(importPath);
                     if (toLayer) {
+                        const fileName = filePath.split("/").at(-1) ?? ""
                         graph.setNodeNeighbour(fromLayer, toLayer);
+                        graph.addFile(fileName, importPath);
                     }
                 }
             }
@@ -186,5 +191,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
         this.db.setNumViolations(violationCount);
         this.db.setUseCases(this.useCaseGraphList);
         this.db.setProjectName(await this.fileAccess.getProjectName());
+        this.db.setFiles(Object.fromEntries(new Map([...this.externalFilePaths, ...this.internalFilePaths])));
+        this.db.setLayer(this.fileLayers);
     }
 }
