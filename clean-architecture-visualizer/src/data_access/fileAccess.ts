@@ -170,6 +170,24 @@ export class FileAccess implements FileAccessInterface {
         const currPath = process.cwd().split("/");
         // returns the index of src if in currPath, else returns -1
         const srcIndex = currPath.indexOf("src");
-        return currPath[srcIndex];
+        if (srcIndex == -1) return currPath[srcIndex];
+        return currPath[srcIndex - 1];
+    }
+
+    /**
+     * Get the file content of path as a single string.
+     * @param path is a path to a valid file
+     * @returns 
+     */
+    async getFileContent(path: string): Promise<string> {
+        
+        try {
+            const fileContent: string = await fs.readFile(path, { encoding: 'utf-8' });
+            return fileContent;
+        }
+        catch {
+            console.log("The file: " + path + " could not be found");
+            return "";
+        }
     }
 }

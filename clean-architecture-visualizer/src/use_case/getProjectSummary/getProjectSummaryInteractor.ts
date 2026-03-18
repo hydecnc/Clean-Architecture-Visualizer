@@ -2,7 +2,7 @@ import type { GetProjectSummaryInputBoundary } from "./getProjectSummaryInputBou
 import type { SessionDBAccessInterface } from "../../data_access/sessionDBAccessInterface.js";
 import type { GetProjectSummaryOutputData } from "./getProjectSummaryOutputData.js";
 
-export class APIInteractor implements GetProjectSummaryInputBoundary {
+export class GetProjectSummaryInteractor implements GetProjectSummaryInputBoundary {
 
     constructor(
             private readonly db: SessionDBAccessInterface,
@@ -17,30 +17,20 @@ export class APIInteractor implements GetProjectSummaryInputBoundary {
         result.project_name = this.db.getProjectName();
         result.total_use_cases = count;
         result.total_violations = this.db.getNumViolations();
-        result.use_cases = this.formatUseCaseInfo(count);
+        result.use_cases = this.formatUseCaseInfo();
 
         this.outputData.setOutputData(result);
     }
 
-    formatUseCaseInfo(count: number): { [key: string]: any}[] {
-        let result: { [key: string]: any }[] = [];
-
-        for (let useCase = 0; useCase < count; useCase++) {
-            // use case from the database
-            const currUC = this.db.getUseCaseInfo(`uc-${useCase}`);
-            if (!currUC) {
-                console.log(`Use Case: ${useCase} not found.`)
-                continue;
-            }
-            // collection for use case to be output
-            let curr: { [key: string]: any } = {};
-            curr.id = currUC.id;
-            curr.name = currUC.name;
-            curr.violation_count = currUC.violationEdges.length;
-
-            result.push(curr);
-        }
-
-        return result;
+    formatUseCaseInfo(): { [key: string]: any }[] {
+        return this.db.getAllUseCases().map(uc => ({
+            id: uc.id,
+            name: uc.name,
+            violation_count: uc.violationEdges.length,
+            interactions: [{
+                "interaction_id": uc.id,
+                "interaction_name": uc.name
+            }]
+        }));
     }
 }

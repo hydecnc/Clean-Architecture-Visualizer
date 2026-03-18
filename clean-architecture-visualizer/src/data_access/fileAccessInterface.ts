@@ -3,4 +3,5 @@ export interface FileAccessInterface {
     getFilePaths(node: string, paths: Map<string, string>): Promise<void>;
     getFileImports(path: string): Promise<string[]>;
     getProjectName(): Promise<string>;
+    getFileContent(path: string): Promise<string>;
 }

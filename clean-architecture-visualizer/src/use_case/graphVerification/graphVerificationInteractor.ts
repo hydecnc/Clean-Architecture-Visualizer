@@ -4,6 +4,8 @@ import type { SessionDBAccessInterface } from "../../data_access/sessionDBAccess
 import type { GraphVerificationInputBoundary } from "./graphVerificationInputBoundary.js";
 import type { cleanNode } from "../../types/cleanNode.js";
 import { useCaseGraph } from "../../entities/useCaseGraph.js";
+import type { EdgeStorage, FileStorage, NodeStorage } from "../../types/sessionData.js";
+import type { cleanLayer } from "../../types/cleanLayer.js";
 
 export class GraphVerificationInteractor implements GraphVerificationInputBoundary{
     private readonly internalDirectories = [
@@ -22,7 +24,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
     private readonly externalFilePaths = new Map<string, string>();
 
     // The node of files <File Name, Node>
-    private readonly fileLayers : Record<string, cleanNode> = {};
+    private readonly externalNodes : Record<string, cleanNode> = {};
 
     constructor(
         private readonly fileAccess: FileAccessInterface,
@@ -74,23 +76,23 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
         
         for (const graph of this.useCaseGraphList) {
             for (const [fileName, filePath] of graph.getFiles()) {
-                const fromLayer = this.resolveLayer(filePath);
-                if (!fromLayer) continue;
-                this.fileLayers[fileName] = fromLayer;
+                const fromNode = this.resolveNode(filePath);
+                if (!fromNode) continue;
+                this.externalNodes[fileName] = fromNode;
                 const imports = await this.fileAccess.getFileImports(filePath);
                 for (const importPath of imports) {
-                    const toLayer = this.resolveImportToLayer(this.internalFilePaths, importPath) ?? this.resolveImportToLayer(this.externalFilePaths, importPath);
-                    if (toLayer) {
-                        graph.setNodeNeighbour(fromLayer, toLayer);
+                    const toNode = this.resolveImportToNode(this.internalFilePaths, importPath) ?? this.resolveImportToNode(this.externalFilePaths, importPath);
+                    if (toNode) {
+                        graph.setNodeNeighbour(fromNode, toNode);
                     }
                 }
             }
         }
 
         for (const [fileName, filePath] of this.externalFilePaths) {
-            const fromLayer = this.resolveLayer(filePath);
-            if (!fromLayer) continue;
-            this.fileLayers[fileName] = fromLayer;
+            const fromNode = this.resolveNode(filePath);
+            if (!fromNode) continue;
+            this.externalNodes[fileName] = fromNode;
             const imports = await this.fileAccess.getFileImports(filePath);
 
             // Find all graphs that own any (.some functionality) of this file's imports
@@ -107,10 +109,10 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
             // Add ALL imports to every owning graph
             for (const graph of owningGraphs) {
                 for (const importPath of imports) {
-                    const toLayer = this.resolveLayer(importPath);
-                    if (toLayer) {
+                    const toNode = this.resolveNode(importPath);
+                    if (toNode) {
                         const fileName = filePath.split("/").at(-1) ?? ""
-                        graph.setNodeNeighbour(fromLayer, toLayer);
+                        graph.setNodeNeighbour(fromNode, toNode);
                         graph.addFile(fileName, importPath);
                     }
                 }
@@ -123,7 +125,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
      * @param importPath the path to a file.
      * @returns 
      */
-    private resolveLayer(importPath: string): cleanNode | null {
+    private resolveNode(importPath: string): cleanNode | null {
         importPath = importPath.toLowerCase();
         if (importPath.includes("viewmodel")) return "viewModel"; // must be verified before 'view'
         if (importPath.includes("view")) return "view";
@@ -142,18 +144,40 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
     }
 
     /**
+     * Given an import path, decide which layer this directory belongs to.
+     * @param importPath the path to a file.
+     * @returns 
+     */
+    private resolveLayer(importPath: string): cleanLayer | undefined {
+        importPath = importPath.toLowerCase();
+        if (importPath.includes("viewmodel")) return "interfaceAdapters"; // must be verified before 'view'
+        if (importPath.includes("view")) return "frameworksAndDrivers";
+        if (importPath.includes("database")) return "frameworksAndDrivers";
+        if (importPath.includes("entities")) return "enterpriseBusinessRules";
+        if (importPath.includes("accessinterface")) return "applicationBusinessRules"; // must be verified before 'dataAccess'
+        if (importPath.includes("access")) return "frameworksAndDrivers";
+        if (importPath.includes("controller")) return "interfaceAdapters";
+        if (importPath.includes("presenter")) return "interfaceAdapters";
+        if (importPath.includes("inputboundary")) return "applicationBusinessRules";
+        if (importPath.includes("inputdata")) return "applicationBusinessRules";
+        if (importPath.includes("outputboundary")) return "applicationBusinessRules";
+        if (importPath.includes("outputdata")) return "applicationBusinessRules";
+        if (importPath.includes("interactor")) return "applicationBusinessRules";
+    }
+
+    /**
      * For each import of a file, determine its what node it belongs to.
      * @param nodeType a map from file name to file path.
      * @param importPath a file path
      * @returns the node that an imported file belongs to.
      */
-    private resolveImportToLayer(nodeType: Map<string, string>, importPath: string): cleanNode | null {
+    private resolveImportToNode(nodeType: Map<string, string>, importPath: string): cleanNode | null {
         const entries = [...nodeType.entries()].sort((a, b) => b[0].length - a[0].length);
         for (const [fileName, filePath] of entries) {
             const fileType = fileName.toLowerCase().replace(/\.[^.]+$/, "");
             if (!fileType) continue;
             if (importPath.toLowerCase().includes(fileType)) {
-                return this.resolveLayer(filePath);
+                return this.resolveNode(filePath);
             }
         }
         return null;
@@ -179,19 +203,172 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
         }
     }
 
+    /**
+     * Build a list of FileStorage objects from a file path map.
+     * @param fileMap a map of file name to file path.
+     * @returns a list of FileStorage objects.
+     */
+    private buildFileStorageList(fileMap: Map<string, string>): FileStorage[] {
+        const result: FileStorage[] = [];
+ 
+        for (const [, filePath] of fileMap) {
+            const node = this.resolveNode(filePath);
+            const layer = this.resolveLayer(filePath);
+            if (!node || !layer) continue;
+ 
+            result.push({
+                filePath,
+                fileType: filePath.endsWith(".java") ? "java" : "not_java",
+                layer,
+                node,
+            });
+        }
+ 
+        return result;
+    }
+
+    /**
+     * Build a deduplicated list of NodeStorage objects from all use case graphs.
+     * - Files present in FileStorage are marked VALID or VIOLATION depending on whether
+     *   they appear in any violation edge.
+     * - Nodes reported as missing by any use case are marked MISSING.
+     */
+    private buildNodeStorageList(files: FileStorage[]): NodeStorage[] {
+        const result: NodeStorage[] = [];
+        const seenIds = new Set<string>();
+ 
+        // Collect all violation node types across every use case
+        const violationNodes = new Set<cleanNode>(
+            this.useCaseGraphList.flatMap(uc =>
+                uc.getViolationEdges().flatMap(([from, to]) => [from, to])
+            )
+        );
+ 
+        // Collect all missing node types across every use case
+        const missingNodes = new Set<cleanNode>(
+            this.useCaseGraphList.flatMap(uc => uc.getMissingNodes())
+        );
+ 
+        // One NodeStorage per unique file
+        for (const file of files) {
+            const id = file.filePath;
+            if (seenIds.has(id)) continue;
+            seenIds.add(id);
+ 
+            result.push({
+                id,
+                filePath: file.filePath,
+                type: file.node,
+                layer: file.layer,
+                status: violationNodes.has(file.node) ? "VIOLATION" : "VALID",
+            });
+        }
+ 
+        // One NodeStorage per missing node type (no file path available)
+        for (const missingNode of missingNodes) {
+            const id = `missing-${missingNode}`;
+            if (seenIds.has(id)) continue;
+            seenIds.add(id);
+ 
+            // Attempt to find a matching layer from any file with this node type
+            const matchingFile = files.find(f => f.node === missingNode);
+ 
+            result.push({
+                id,
+                type: missingNode,
+                layer: matchingFile?.layer ?? this.resolveLayerFromNode(missingNode),
+                status: "MISSING",
+            });
+        }
+ 
+        return result;
+    }
+ 
+    /**
+     * Build a deduplicated list of EdgeStorage objects from all use case graphs.
+     * Edges that appear in a use case's violationEdges are marked INCORRECT_DEPENDENCY,
+     * all others are VALID.
+     */
+    private buildEdgeStorageList(): EdgeStorage[] {
+        const result: EdgeStorage[] = [];
+        const seenIds = new Set<string>();
+ 
+        for (const uc of this.useCaseGraphList) {
+            const violationSet = new Set<string>(
+                uc.getViolationEdges().map(([from, to]) => `${from}->${to}`)
+            );
+ 
+            const neighbourMap = uc.getNeighbourMap();
+ 
+            for (const [fromNode, neighbours] of Object.entries(neighbourMap) as [cleanNode, cleanNode[]][]) {
+                for (const toNode of neighbours) {
+                    const id = `${fromNode}->${toNode}`;
+                    if (seenIds.has(id)) continue;
+                    seenIds.add(id);
+ 
+                    result.push({
+                        id,
+                        source: fromNode,
+                        target: toNode,
+                        type: "DEPENDENCY",
+                        status: violationSet.has(id) ? "INCORRECT_DEPENDENCY" : "VALID",
+                    });
+                }
+            }
+        }
+ 
+        return result;
+    }
+ 
+    /**
+     * Fallback layer resolution by node type, for missing nodes that have no matching file.
+     */
+    private resolveLayerFromNode(node: cleanNode): cleanLayer {
+        switch (node) {
+            case "controller":
+            case "presenter":
+            case "viewModel":
+                return "interfaceAdapters";
+
+            case "view":
+            case "database":
+            case "dataAccess":
+                return "frameworksAndDrivers";
+
+            case "inputBoundary":
+            case "inputData":
+            case "outputBoundary":
+            case "outputData":
+            case "useCaseInteractor":
+            case "dataAccessInterface":
+                return "applicationBusinessRules"
+                ;
+            case "entities":
+                return "enterpriseBusinessRules";
+        }
+    }
+
     private async populateDatabase(): Promise<void> {
         const totalUseCases = this.useCaseGraphList.length;
         let violationCount = 0;
-
+ 
         this.useCaseGraphList.forEach(useCase => {
             violationCount += useCase.getViolationCount();
         });
+ 
+        const files: FileStorage[] = [
+            ...this.buildFileStorageList(this.internalFilePaths),
+            ...this.buildFileStorageList(this.externalFilePaths),
+        ];
 
+        const nodes: NodeStorage[] = this.buildNodeStorageList(files);
+        const edges: EdgeStorage[] = this.buildEdgeStorageList();
+ 
         this.db.setNumUseCases(totalUseCases);
         this.db.setNumViolations(violationCount);
-        this.db.setUseCases(this.useCaseGraphList);
+        this.db.setUseCases(this.useCaseGraphList, files);
+        this.db.setNodes(nodes);
+        this.db.setEdges(edges);
         this.db.setProjectName(await this.fileAccess.getProjectName());
-        this.db.setFiles(Object.fromEntries(new Map([...this.externalFilePaths, ...this.internalFilePaths])));
-        this.db.setLayer(this.fileLayers);
     }
 }
