@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState } from 'react';
 import { useFileTree } from '../../../actions/useCodebase';
 import { TreeNode } from './TreeNode';
 import { FileNode } from '../../../lib';
@@ -8,39 +8,42 @@ type FileExplorerProps = {
   activeFilePath: string | null;
 };
 
+const normalizeFolderPath = (path: string): string => 
+  path && !path.endsWith('/') ? `${path}/` : path;
+
 export const FileExplorer = ({ onSelect, activeFilePath }: FileExplorerProps) => {
   const { data: fileTree, isLoading } = useFileTree();
-
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
+  const [lastAutoExpandedPath, setLastAutoExpandedPath] = useState<string | null>(null);
 
-  const pathsToExpand = useMemo(() => {
-    if (!activeFilePath) return [];
-    const parts = activeFilePath.split('/');
-    const result: string[] = [];
+  if (activeFilePath !== lastAutoExpandedPath) {
+    const parts = activeFilePath?.split('/') || [];
+    const newPaths = new Set(expandedFolders);
+    let changed = false;
+
     for (let i = 1; i < parts.length; i++) {
-      result.push(parts.slice(0, i).join('/'));
+      const folderPath = normalizeFolderPath(parts.slice(0, i).join('/'));
+      if (!newPaths.has(folderPath)) {
+        newPaths.add(folderPath);
+        changed = true;
+      }
     }
-    return result;
-  }, [activeFilePath]);
 
-  useEffect(() => {
-    if (pathsToExpand.length === 0) return;
-    const id = setTimeout(() => {
-      setExpandedFolders((prev) => {
-        const newSet = new Set(prev);
-        pathsToExpand.forEach((p) => newSet.add(p));
-        return newSet;
-      });
-    }, 0);
-
-    return () => clearTimeout(id);
-  }, [pathsToExpand]);
+    if (changed) {
+      setExpandedFolders(newPaths);
+    }
+    setLastAutoExpandedPath(activeFilePath);
+  }
 
   const toggleFolder = (path: string) => {
+    const normalized = normalizeFolderPath(path);
     setExpandedFolders((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(path)) newSet.delete(path);
-      else newSet.add(path);
+      if (newSet.has(normalized)) {
+        newSet.delete(normalized);
+      } else {
+        newSet.add(normalized);
+      }
       return newSet;
     });
   };

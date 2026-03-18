@@ -6,7 +6,6 @@ import { useFileViewer, useFileRelations } from '../../../actions/useCodebase';
 import { LAYER_METADATA, CALayer, FileRelation, FileContent } from '../../../lib';
 import { Breadcrumbs, Typography } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-// New Styled Components
 import { ViewerContainer, HeaderContainer, EditorCard, LayerChip, StatusContainer } from './styles';
 
 const getMonacoThemeConfig = (theme: Theme): Monaco.editor.IStandaloneThemeData => ({
@@ -92,7 +91,7 @@ const layerInfo = useMemo(() =>
         range: new monacoRef.current!.Range(rel.line, 1, rel.line, 1),
         options: {
           isWholeLine: true,
-          className: `relation-highlight-${rel.layer.toLowerCase()}`,
+          className: `relation-highlight-${relMeta.paletteKey}`,
           hoverMessage: { value: `Layer: ${relMeta.label}` },
         },
       });
