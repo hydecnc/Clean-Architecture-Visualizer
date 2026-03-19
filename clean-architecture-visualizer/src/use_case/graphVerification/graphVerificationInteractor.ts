@@ -227,34 +227,26 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
         return result;
     }
 
-    /**
-     * Build a deduplicated list of NodeStorage objects from all use case graphs.
-     * - Files present in FileStorage are marked VALID or VIOLATION depending on whether
-     *   they appear in any violation edge.
-     * - Nodes reported as missing by any use case are marked MISSING.
-     */
     private buildNodeStorageList(files: FileStorage[]): NodeStorage[] {
         const result: NodeStorage[] = [];
         const seenIds = new Set<string>();
- 
-        // Collect all violation node types across every use case
+
         const violationNodes = new Set<cleanNode>(
             this.useCaseGraphList.flatMap(uc =>
                 uc.getViolationEdges().flatMap(([from, to]) => [from, to])
             )
         );
- 
-        // Collect all missing node types across every use case
+
         const missingNodes = new Set<cleanNode>(
             this.useCaseGraphList.flatMap(uc => uc.getMissingNodes())
         );
- 
+
         // One NodeStorage per unique file
         for (const file of files) {
             const id = file.filePath;
             if (seenIds.has(id)) continue;
             seenIds.add(id);
- 
+
             result.push({
                 id,
                 filePath: file.filePath,
@@ -263,27 +255,36 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
                 status: violationNodes.has(file.node) ? "VIOLATION" : "VALID",
             });
         }
- 
+
+        // Ensure violation node types always get a NodeStorage entry,
+        // even when no FileStorage exists for that node type
+        for (const violationNode of violationNodes) {
+            if (result.some(n => n.type === violationNode)) continue;
+
+            result.push({
+                id: `violation-${violationNode}`,
+                type: violationNode,
+                layer: this.resolveLayerFromNode(violationNode),
+                status: "VIOLATION",
+            });
+        }
+
         // One NodeStorage per missing node type (no file path available)
         for (const missingNode of missingNodes) {
-            const id = `missing-${missingNode}`;
-            if (seenIds.has(id)) continue;
-            seenIds.add(id);
- 
-            // Attempt to find a matching layer from any file with this node type
+            if (result.some(n => n.type === missingNode)) continue;
+
             const matchingFile = files.find(f => f.node === missingNode);
- 
+
             result.push({
-                id,
+                id: `missing-${missingNode}`,
                 type: missingNode,
                 layer: matchingFile?.layer ?? this.resolveLayerFromNode(missingNode),
                 status: "MISSING",
             });
         }
- 
+
         return result;
     }
- 
     /**
      * Build a deduplicated list of EdgeStorage objects from all use case graphs.
      * Edges that appear in a use case's violationEdges are marked INCORRECT_DEPENDENCY,

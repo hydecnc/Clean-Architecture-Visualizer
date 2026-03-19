@@ -1,4 +1,4 @@
-export class GetUseCaseInfoInputData {
+export class GetRelationsInputData {
     
     constructor(
         private readonly interactionId: string,

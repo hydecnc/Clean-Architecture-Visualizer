@@ -2,7 +2,6 @@ import type { GetFileTreeInputBoundary } from "./getFileTreeInputBoundary.js";
 import type { SessionDBAccessInterface } from "../../data_access/sessionDBAccessInterface.js";
 import type { GetFileTreeOutputData } from "./getFileTreeOuptutData.js";
 import type { FileTreeNode } from "../../types/fileTreeNode.js";
-import type { cleanLayer } from "../../types/cleanLayer.js";
 import type { FileStorage } from "../../types/sessionData.js";
 
 export class GetFileTreeInteractor implements GetFileTreeInputBoundary {

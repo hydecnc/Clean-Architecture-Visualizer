@@ -190,4 +190,53 @@ export class FileAccess implements FileAccessInterface {
             return "";
         }
     }
+
+    /**
+     * Find the first import line in a file that references the given target name,
+     * and return it as a snippet string.
+     * @param filePath is a path to a valid file.
+     * @param target the name of the imported module to search for (e.g. "Database").
+     * @returns the matching import line, or undefined if not found.
+     */
+    async getFileSnippet(filePath: string, target?: string): Promise<string | undefined> {
+        const content = await this.getFileContent(filePath);
+        if (!content) return undefined;
+ 
+        const lines = content.split("\n");
+        const importLines = lines.filter(line => line.trimStart().startsWith("import "));
+ 
+        if (!target) {
+            // No target specified — return all import lines joined
+            return importLines.length > 0 ? importLines.join("\n") : undefined;
+        }
+ 
+        const match = importLines.find(line =>
+            line.toLowerCase().includes(target.toLowerCase())
+        );
+ 
+        return match?.trim() ?? undefined;
+    }
+ 
+    /**
+     * Find the 1-based line number of the first import line in a file that
+     * references the given target name.
+     * @param filePath is a path to a valid file.
+     * @param target the name of the imported module to search for (e.g. "Database").
+     * @returns the 1-based line number, or undefined if not found.
+     */
+    async getLineNumber(filePath: string, target: string): Promise<number | undefined> {
+        const content = await this.getFileContent(filePath);
+        if (!content) return undefined;
+ 
+        const lines = content.split("\n");
+ 
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            if (line.trimStart().startsWith("import ") && line.toLowerCase().includes(target.toLowerCase())) {
+                return i + 1; // 1-based line number
+            }
+        }
+ 
+        return undefined;
+    }
 }
