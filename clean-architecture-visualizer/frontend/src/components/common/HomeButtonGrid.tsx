@@ -6,7 +6,7 @@ interface GridItem {
   title: string;
   description: string;
   to: string;
-  icon: React.ReactNode;
+  icon: React.ReactElement;
   bgColor: string;
   iconColor?: string;
 }
@@ -23,9 +23,9 @@ const HomeButtonGrid: React.FC<HomeButtonGridProps> = ({ items }) => {
       justifyContent="center" 
       sx={{ flexWrap: { xs: 'wrap', md: 'nowrap' } }}
     >
-      {items.map((item, index) => (
+      {items.map((item) => (
         <Grid 
-          key={index} 
+          key={item.to}
           size={{ xs: 12, md: 4 }} 
           display="flex" 
           justifyContent="center"

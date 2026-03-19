@@ -44,6 +44,7 @@ const InfoDialog: React.FC<InfoDialogProps> = ({
     >
       <IconButton
         onClick={onClose}
+        aria-label="Close"
         sx={{ 
           position: 'absolute', 
           right: 16, 

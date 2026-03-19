@@ -6,7 +6,7 @@ interface HomeButtonCardProps {
   title: string;
   description: string;
   to: string;
-  icon: React.ReactNode;
+  icon: React.ReactElement;
   bgColor: string;
   iconColor?: string;
 }

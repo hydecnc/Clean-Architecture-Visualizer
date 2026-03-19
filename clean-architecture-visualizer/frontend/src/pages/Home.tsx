@@ -1,4 +1,5 @@
 import React from 'react';
+import '../i18n/config';
 import { useTranslation } from 'react-i18next';
 import { Box, Typography, Container, IconButton } from '@mui/material';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -44,6 +45,8 @@ const Home: React.FC = () => {
             <IconButton 
                 sx={{ position: 'absolute', top: 20, right: 20 }} 
                 onClick={() => setInfoOpen(true)}
+                aria-label={t('infoDialog.title')}
+                title={t('infoDialog.title')}
             >
                 <InfoOutlinedIcon fontSize="large" />
             </IconButton>
