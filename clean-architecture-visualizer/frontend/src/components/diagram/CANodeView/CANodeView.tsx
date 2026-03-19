@@ -11,7 +11,7 @@ const layerColorMap: Record<CANode['layer'], LayerColor> = {
 
 export function CANodeView(nodeObject: CANode) {
   const title = nodeObject.name ?? nodeObject.id;
-  const layerColor = layerColorMap[nodeObject.layer];
+  const layerColor = layerColorMap[nodeObject.layer] ?? 'adapters';
 
   return (
     <NodePaper layerColor={layerColor} status={nodeObject.status}>

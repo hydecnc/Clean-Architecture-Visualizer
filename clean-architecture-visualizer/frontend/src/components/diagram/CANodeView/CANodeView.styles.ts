@@ -21,6 +21,6 @@ export const NodePaper = styled(Paper, {
   }),
   ...(status === 'VIOLATION' && {
     borderColor: theme.palette.error.main,
-    borderWidth: 2,
+    borderWidth: 5,
   }),
 }));
