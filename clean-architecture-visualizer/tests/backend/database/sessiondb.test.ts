@@ -13,6 +13,7 @@ describe("SessionDB", () => {
     beforeEach(() => {
         if (fs.existsSync(SESSION_FILE)) fs.unlinkSync(SESSION_FILE);
         db = new SessionDB<SessionData>();
+        db.clear();
     });
 
     afterEach(() => {
