@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useFileTree } from '../../../actions/useCodebase';
 import { TreeNode } from './TreeNode';
 import { FileNode } from '../../../lib';
@@ -14,30 +14,28 @@ const normalizeFolderPath = (path: string): string =>
 export const FileExplorer = ({ onSelect, activeFilePath }: FileExplorerProps) => {
   const { data: fileTree, isLoading, isFetching } = useFileTree();
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set());
+  
   const [lastAutoExpandedPath, setLastAutoExpandedPath] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (activeFilePath && activeFilePath !== lastAutoExpandedPath) {
-      const parts = activeFilePath.split('/');
+  if (activeFilePath && activeFilePath !== lastAutoExpandedPath) {
+    const parts = activeFilePath.split('/');
+    const newPaths = new Set(expandedFolders);
+    let changed = false;
 
-      setExpandedFolders((prev) => {
-        const newPaths = new Set(prev);
-        let changed = false;
-
-        for (let i = 1; i < parts.length; i++) {
-          const folderPath = normalizeFolderPath(parts.slice(0, i).join('/'));
-          if (!newPaths.has(folderPath)) {
-            newPaths.add(folderPath);
-            changed = true;
-          }
-        }
-        
-        return changed ? newPaths : prev;
-      });
-
-      setLastAutoExpandedPath(activeFilePath);
+    for (let i = 1; i < parts.length; i++) {
+      const folderPath = normalizeFolderPath(parts.slice(0, i).join('/'));
+      if (!newPaths.has(folderPath)) {
+        newPaths.add(folderPath);
+        changed = true;
+      }
     }
-  }, [activeFilePath, lastAutoExpandedPath]); 
+
+    if (changed) {
+      setExpandedFolders(newPaths);
+    }
+
+    setLastAutoExpandedPath(activeFilePath);
+  }
 
   const toggleFolder = (path: string) => {
     const normalized = normalizeFolderPath(path);
@@ -52,7 +50,6 @@ export const FileExplorer = ({ onSelect, activeFilePath }: FileExplorerProps) =>
     });
   };
 
-  // Keep the cached tree visible during background fetches
   if (isLoading && !fileTree) return <div>Loading project structure...</div>;
 
   return (
