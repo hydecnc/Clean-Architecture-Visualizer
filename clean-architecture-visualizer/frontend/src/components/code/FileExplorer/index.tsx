@@ -19,23 +19,25 @@ export const FileExplorer = ({ onSelect, activeFilePath }: FileExplorerProps) =>
   useEffect(() => {
     if (activeFilePath && activeFilePath !== lastAutoExpandedPath) {
       const parts = activeFilePath.split('/');
-      const newPaths = new Set(expandedFolders);
-      let changed = false;
 
-      for (let i = 1; i < parts.length; i++) {
-        const folderPath = normalizeFolderPath(parts.slice(0, i).join('/'));
-        if (!newPaths.has(folderPath)) {
-          newPaths.add(folderPath);
-          changed = true;
+      setExpandedFolders((prev) => {
+        const newPaths = new Set(prev);
+        let changed = false;
+
+        for (let i = 1; i < parts.length; i++) {
+          const folderPath = normalizeFolderPath(parts.slice(0, i).join('/'));
+          if (!newPaths.has(folderPath)) {
+            newPaths.add(folderPath);
+            changed = true;
+          }
         }
-      }
+        
+        return changed ? newPaths : prev;
+      });
 
-      if (changed) {
-        setExpandedFolders(newPaths);
-      }
       setLastAutoExpandedPath(activeFilePath);
     }
-  }, [activeFilePath, lastAutoExpandedPath, expandedFolders]);
+  }, [activeFilePath, lastAutoExpandedPath]); 
 
   const toggleFolder = (path: string) => {
     const normalized = normalizeFolderPath(path);
@@ -50,7 +52,8 @@ export const FileExplorer = ({ onSelect, activeFilePath }: FileExplorerProps) =>
     });
   };
 
-  if (isLoading) return <div>Loading project structure...</div>;
+  // Keep the cached tree visible during background fetches
+  if (isLoading && !fileTree) return <div>Loading project structure...</div>;
 
   return (
     <div style={{ opacity: isFetching ? 0.7 : 1, transition: 'opacity 0.2s' }}>
