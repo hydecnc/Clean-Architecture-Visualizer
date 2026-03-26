@@ -33,4 +33,4 @@ export default function Dropdown({ options, onSelect }: DropdownProps) {
             )}
         </div>
     );
-};
+}

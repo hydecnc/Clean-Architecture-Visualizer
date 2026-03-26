@@ -27,5 +27,5 @@ export default function UseCaseInteractionDiagram() {
             </main>
         </div>
     );
-};
+}
 

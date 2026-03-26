@@ -25,11 +25,3 @@ export const useInteractionViolations = (interactionId: string) => {
     enabled: !!interactionId,
   });
 };
-
-export const useUseCaseDiagramData = (useCaseName: string, interactionName?: string) => {
-  return useQuery<UseCaseDiagramData, Error>({
-    queryKey: ['use-case-diagram', useCaseName, interactionName],
-    queryFn: () => getUseCaseDiagramData(useCaseName, interactionName),
-    enabled: !!useCaseName,
-  });
-};

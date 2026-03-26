@@ -75,13 +75,10 @@ export function Edge({ startNode, endNode, status, arrowHeadType, containerRef, 
 
     useEffect(() => {
         let animationFrameId: number | null = null;
-        const clearLine = () => {
-            animationFrameId = requestAnimationFrame(() => setLine(null));
-        };
 
         const container = containerRef.current;
         if (!container) {
-            clearLine();
+            setLine(null);
             return;
         }
 
@@ -89,7 +86,7 @@ export function Edge({ startNode, endNode, status, arrowHeadType, containerRef, 
         const endElement = container.querySelector(`[data-ca-node-id="${cssEscape(endNode.id)}"]`) as HTMLElement | null;
 
         if (!startElement || !endElement) {
-            clearLine();
+            setLine(null);
             return;
         }
 

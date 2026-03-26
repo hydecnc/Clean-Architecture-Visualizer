@@ -146,4 +146,4 @@ export default function CheckerMode(){
             </div>
         </div>
     );
-};
+}
