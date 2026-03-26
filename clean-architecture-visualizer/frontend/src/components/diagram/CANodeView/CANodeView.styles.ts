@@ -6,7 +6,7 @@ export type LayerColor = 'entities' | 'useCases' | 'adapters' | 'drivers';
 export const NodePaper = styled(Paper, {
   shouldForwardProp: (prop) => prop !== 'layerColor' && prop !== 'status',
 })<{ layerColor: LayerColor; status: CANode['status'] }>(({ theme, layerColor, status }) => ({
-  margin: theme.spacing(2),
+  margin: theme.spacing(0.5, 1),
   backgroundColor: theme.palette[layerColor].main,
   border: '2px solid',
   borderColor: theme.palette[layerColor].contrastText,

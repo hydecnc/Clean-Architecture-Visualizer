@@ -14,7 +14,7 @@ export function CANodeView(nodeObject: CANode) {
   const layerColor = layerColorMap[nodeObject.layer] ?? 'adapters';
 
   return (
-    <NodePaper layerColor={layerColor} status={nodeObject.status}>
+    <NodePaper layerColor={layerColor} status={nodeObject.status} data-ca-node-id={nodeObject.id}>
       <Typography variant="body1" align="center" fontWeight="bold">
         {title}
       </Typography>

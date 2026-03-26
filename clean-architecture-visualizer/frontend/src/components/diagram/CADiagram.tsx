@@ -5,7 +5,7 @@
 import { Typography, Container, CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { CADiagramView } from './index';
-import type { CANode, CAComponentType, CALayer } from '../../lib/types';
+import type { CANode, CAEdge, CAComponentType, CALayer } from '../../lib/types';
 import { useInteraction } from '../../actions/useAnalysis';
 
 const componentLayerMap: Record<CAComponentType, CALayer> = {
@@ -97,7 +97,7 @@ export function CADiagram() {
         };
         interactor = {
             id: 'interactor-learning',
-            name: 'Interactor',
+            name: 'Use Case Interactor',
             type: 'Interactor',
             layer: 'ApplicationBusinessRules',
             status: 'VALID',
@@ -151,6 +151,114 @@ export function CADiagram() {
             layer: 'Frameworks',
             status: 'VALID',
         };
+
+        edges = [
+            {
+                id: 'learning-edge-controller-input-data',
+                source: controller.id,
+                target: inputData.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-controller-input-boundary',
+                source: controller.id,
+                target: inputBoundary.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-presenter-output-boundary',
+                source: presenter.id,
+                target: outputBoundary.id,
+                type: 'INHERITANCE',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-presenter-view-model',
+                source: presenter.id,
+                target: viewModel.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-presenter-output-data',
+                source: presenter.id,
+                target: outputData.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-view-view-model',
+                source: view.id,
+                target: viewModel.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-interactor-input-boundary',
+                source: interactor.id,
+                target: inputBoundary.id,
+                type: 'INHERITANCE',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-interactor-output-boundary',
+                source: interactor.id,
+                target: outputBoundary.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-interactor-input-data',
+                source: interactor.id,
+                target: inputData.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-interactor-output-data',
+                source: interactor.id,
+                target: outputData.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-interactor-data-access-interface',
+                source: interactor.id,
+                target: dataAccessInterface.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-data-access-data-access-interface',
+                source: dataAccess.id,
+                target: dataAccessInterface.id,
+                type: 'INHERITANCE',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-interactor-entities',
+                source: interactor.id,
+                target: entities.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-data-access-interface-entities',
+                source: dataAccessInterface.id,
+                target: entities.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+            {
+                id: 'learning-edge-data-access-database',
+                source: dataAccess.id,
+                target: database.id,
+                type: 'DEPENDENCY',
+                status: 'VALID',
+            },
+        ];
 
 
     } else {
