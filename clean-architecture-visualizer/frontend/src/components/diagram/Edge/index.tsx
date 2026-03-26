@@ -74,9 +74,14 @@ export function Edge({ startNode, endNode, status, arrowHeadType, containerRef, 
     }, [arrowHeadType, markerId]);
 
     useEffect(() => {
+        let animationFrameId: number | null = null;
+        const clearLine = () => {
+            animationFrameId = requestAnimationFrame(() => setLine(null));
+        };
+
         const container = containerRef.current;
         if (!container) {
-            setLine(null);
+            clearLine();
             return;
         }
 
@@ -84,7 +89,7 @@ export function Edge({ startNode, endNode, status, arrowHeadType, containerRef, 
         const endElement = container.querySelector(`[data-ca-node-id="${cssEscape(endNode.id)}"]`) as HTMLElement | null;
 
         if (!startElement || !endElement) {
-            setLine(null);
+            clearLine();
             return;
         }
 
@@ -130,7 +135,7 @@ export function Edge({ startNode, endNode, status, arrowHeadType, containerRef, 
             });
         };
 
-        updateLine();
+        animationFrameId = requestAnimationFrame(updateLine);
 
         const resizeObserver = new ResizeObserver(updateLine);
         resizeObserver.observe(container);
@@ -142,6 +147,9 @@ export function Edge({ startNode, endNode, status, arrowHeadType, containerRef, 
         container.addEventListener('scroll', updateLine, { passive: true });
 
         return () => {
+            if (animationFrameId !== null) {
+                cancelAnimationFrame(animationFrameId);
+            }
             resizeObserver.disconnect();
             window.removeEventListener('resize', updateLine);
             container.removeEventListener('scroll', updateLine);
