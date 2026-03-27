@@ -162,9 +162,6 @@ export function CADiagramView({
 
     return (
         <><Container maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', gap: 0.75 }}>
-            <Typography variant="h4" gutterBottom>
-                Clean Architecture Diagram
-            </Typography>
             <Container ref={diagramContainerRef} sx={{ border: 2, borderColor: 'grey.600', borderRadius: 8, bgcolor: 'grey.100', py: 1.25, overflowX: 'auto', position: 'relative' }}>
                 <Box sx={{ display: 'grid', gridTemplateColumns: '1.1fr 2.1fr 1.1fr', columnGap: 1.25, rowGap: 0.5, minWidth: 900 }}>
                     <Box sx={{ border: 2, borderColor: 'adapters.contrastText', bgcolor: 'adapters.light', borderRadius: 2, p: 1 }}>
