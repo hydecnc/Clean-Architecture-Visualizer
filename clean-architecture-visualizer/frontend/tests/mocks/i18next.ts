@@ -1,7 +1,8 @@
 import { vi } from 'vitest';
-
+import type { ReactNode } from 'react';
 vi.mock('react-i18next', () => ({
-  Trans: ({ children }: { children: React.ReactNode }) => children,
+  Trans: ({ children }: { children: ReactNode }) => children,
+
   useTranslation: () => ({
     t: (key: string) => key, 
     i18n: {

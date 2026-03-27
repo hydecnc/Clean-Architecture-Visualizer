@@ -27,7 +27,8 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
-    include: ['tests/**/*.{test,spec}.{ts,tsx}'],
+    include: ['tests/unit/**/*.{test,ts,tsx}'], 
+    exclude: ['tests/e2e/**'],
     server: {
       deps: {
         // Prevents Vitest from trying to resolve react-query from the parent node_modules
