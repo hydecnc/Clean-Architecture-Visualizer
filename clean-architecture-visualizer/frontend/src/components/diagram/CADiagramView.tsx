@@ -215,20 +215,32 @@ export function CADiagramView({
                         </Box>
                     </Box>
                 </Box>
-
-
-                <Box sx={{ mt: 1, border: 2, borderColor: 'drivers.contrastText', bgcolor: 'drivers.light', borderRadius: 2, p: 1 }}>
-                    <Box sx={{ display: 'grid', gridTemplateColumns: '1.1fr 1.1fr 1.1fr 1.1fr', columnGap: 1.25, minWidth: 900 }}>
-                        <Box />
-                        <Typography variant="subtitle2" sx={{ mb: 0.5, fontWeight: 700 }}>
-                            Frameworks and Drivers
-                        </Typography>
+                <Box sx={{ mt: 1, border: 2, borderColor: 'drivers.contrastText', bgcolor: 'drivers.light', borderRadius: 2, p: 0 }}>
+                    <Box sx={{ display: 'grid', gridTemplateColumns: '1.1fr 2.1fr 1.1fr', columnGap: 1.25, minWidth: 900 }}>
+                        <Box sx={{ px: 1, pt: 0.75 }} />
+                        <Box sx={{ px: 1, pt: 0.75 }}>
+                            <Typography variant="subtitle2" sx={{ mb: 0.25, fontWeight: 700 }}>
+                                Frameworks and Drivers
+                            </Typography>
+                        </Box>
+                        <Box sx={{ px: 1, pt: 0.75 }} />
                     </Box>
-                    <Box sx={{ display: 'grid', gridTemplateColumns: '1.1fr 1.1fr 1.1fr 1.1fr', columnGap: 1.25, minWidth: 900 }}>
-                        <CANodeView {...view} isInteractive={areNodesInteractive} />
-                        <Box />
-                        <CANodeView {...dataAccess} isInteractive={areNodesInteractive} />
-                        <CANodeView {...database} isInteractive={areNodesInteractive} />
+
+                    <Box sx={{ display: 'grid', gridTemplateColumns: '1.1fr 2.1fr 1.1fr', columnGap: 1.25, minWidth: 900, mt: -0.5 }}>
+                        <Box sx={{ px: 1, pb: 0.75 }}>
+                            <CANodeView {...view} isInteractive={areNodesInteractive} />
+                        </Box>
+
+                        <Box sx={{ px: 1, pb: 0.75 }}>
+                            <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 1 }}>
+                                <Box />
+                                <CANodeView {...dataAccess} isInteractive={areNodesInteractive} />
+                            </Box>
+                        </Box>
+
+                        <Box sx={{ px: 1, pb: 0.75 }}>
+                            <CANodeView {...database} isInteractive={areNodesInteractive} />
+                        </Box>
                     </Box>
                 </Box>
 

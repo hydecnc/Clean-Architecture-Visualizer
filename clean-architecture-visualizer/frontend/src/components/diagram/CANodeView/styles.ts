@@ -15,7 +15,14 @@ export const NodePaper = styled(Paper, {
   const canInteract = isInteractive ?? status !== 'MISSING';
 
   return ({
-  margin: theme.spacing(0.5, 1),
+  boxSizing: 'border-box',
+  width: 170,
+  minWidth: 170,
+  maxWidth: 170,
+  marginTop: theme.spacing(0.5),
+  marginBottom: theme.spacing(0.5),
+  marginLeft: 'auto',
+  marginRight: 'auto',
   backgroundColor: theme.palette[layerColor].main,
   border: '2px solid',
   borderColor: theme.palette[layerColor].contrastText,
