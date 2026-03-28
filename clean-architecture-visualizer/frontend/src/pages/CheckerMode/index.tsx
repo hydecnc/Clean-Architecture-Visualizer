@@ -81,8 +81,8 @@ const CheckerMode = () => {
             </Box>
 
             <Box sx={{ ...styles.statusRow, mb: 4 }}>
-                <ErrorIcon sx={{ color: theme.palette.warning.main }} />
-                <Typography sx={{ fontWeight: 700, fontSize: 24, color: theme.palette.warning.main }}>
+                <ErrorIcon sx={{ color: theme.palette.error.main }} />
+                <Typography sx={{ fontWeight: 700, fontSize: 24, color: theme.palette.error.main }}>
                     {t('violationsPresent', { count: data.total_violations })}
                 </Typography>
             </Box>
@@ -121,7 +121,7 @@ const CheckerMode = () => {
                                 <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center', pr: 2 }}>
                                     <Typography sx={{ fontWeight: 600, fontSize: 18 }}>{useCase.name}</Typography>
                                     {useCase.violation_count > 0 && (
-                                        <Typography sx={{ color: theme.palette.warning.main, fontWeight: 700, fontSize: 13 }}>
+                                        <Typography sx={{ color: theme.palette.error.main, fontWeight: 700, fontSize: 13 }}>
                                             {t('violationsPresent', { count: useCase.violation_count })}
                                         </Typography>
                                     )}

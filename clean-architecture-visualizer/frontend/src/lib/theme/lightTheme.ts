@@ -42,9 +42,6 @@ export const lightTheme = createTheme({
             default: '#FFFFFF',
             paper: '#FFFFFF',
         },
-        warning: {
-            main: '#e65100', 
-        },
         success: {
             main: '#4caf50', 
         },
