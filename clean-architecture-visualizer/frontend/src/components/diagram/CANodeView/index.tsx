@@ -1,13 +1,6 @@
 import { Typography } from '@mui/material';
 import { NodePaper, type LayerColor } from './styles';
-import type { CANode } from '../../../lib/types';
-
-const layerColorMap: Record<CANode['layer'], LayerColor> = {
-  EnterpriseBusinessRules: 'entities',
-  ApplicationBusinessRules: 'useCases',
-  InterfaceAdapters: 'adapters',
-  Frameworks: 'drivers',
-};
+import { LAYER_METADATA, type CANode } from '../../../lib/types';
 
 type CANodeViewProps = CANode & {
   isInteractive?: boolean;
@@ -15,7 +8,7 @@ type CANodeViewProps = CANode & {
 
 export function CANodeView({ isInteractive, ...nodeObject }: CANodeViewProps) {
   const title = nodeObject.name ?? nodeObject.id;
-  const layerColor = layerColorMap[nodeObject.layer] ?? 'adapters';
+  const layerColor: LayerColor = LAYER_METADATA[nodeObject.layer].paletteKey;
 
   return (
     <NodePaper

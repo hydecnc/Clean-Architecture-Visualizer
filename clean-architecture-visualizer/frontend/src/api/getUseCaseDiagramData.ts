@@ -7,43 +7,23 @@ import type {
   CANode,
   Interaction,
 } from '../lib/types';
+import {
+  COMPONENT_TYPES,
+  EDGE_STATUSES,
+  EDGE_TYPES,
+  LAYER_METADATA,
+  NODE_STATUSES,
+} from '../lib/types';
 
-const validComponentTypes: ReadonlySet<CAComponentType> = new Set([
-  'Controller',
-  'Presenter',
-  'View',
-  'ViewModel',
-  'InputBoundary',
-  'OutputBoundary',
-  'InputData',
-  'OutputData',
-  'Interactor',
-  'Entity',
-  'DataAccessInterface',
-  'DataAccess',
-  'Database',
-]);
+const validComponentTypes: ReadonlySet<CAComponentType> = new Set(COMPONENT_TYPES);
 
-const validLayers: ReadonlySet<CALayer> = new Set([
-  'Frameworks',
-  'InterfaceAdapters',
-  'ApplicationBusinessRules',
-  'EnterpriseBusinessRules',
-]);
+const validLayers: ReadonlySet<CALayer> = new Set(Object.keys(LAYER_METADATA) as CALayer[]);
 
-const validNodeStatuses: ReadonlySet<CANode['status']> = new Set(['VALID', 'MISSING', 'VIOLATION']);
+const validNodeStatuses: ReadonlySet<CANode['status']> = new Set(NODE_STATUSES);
 
-const validEdgeTypes: ReadonlySet<CAEdge['type']> = new Set([
-  'DEPENDENCY',
-  'ASSOCIATION',
-  'INHERITANCE',
-]);
+const validEdgeTypes: ReadonlySet<CAEdge['type']> = new Set(EDGE_TYPES);
 
-const validEdgeStatuses: ReadonlySet<CAEdge['status']> = new Set([
-  'VALID',
-  'VIOLATION',
-  'INCORRECT_DEPENDENCY',
-]);
+const validEdgeStatuses: ReadonlySet<CAEdge['status']> = new Set(EDGE_STATUSES);
 
 export interface UseCaseDiagramData {
   interactionId: string;

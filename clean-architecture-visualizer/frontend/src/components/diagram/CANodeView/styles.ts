@@ -1,8 +1,8 @@
 import { Paper } from '@mui/material';
 import { darken, styled } from '@mui/material/styles';
-import type { CANode } from '../../../lib/types';
+import type { CALayerKey, CANode } from '../../../lib/types';
 
-export type LayerColor = 'entities' | 'useCases' | 'adapters' | 'drivers';
+export type LayerColor = CALayerKey;
 
 export const NodePaper = styled(Paper, {
   shouldForwardProp: (prop) => prop !== 'layerColor' && prop !== 'status' && prop !== 'isInteractive',
