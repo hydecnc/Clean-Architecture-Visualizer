@@ -1,23 +1,27 @@
 import { Paper, Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import type { CAComponentType } from '../../lib/types';
-import { LAYER_METADATA, COMPONENT_TO_LAYER } from '../../lib/types';
+import { LAYER_METADATA } from '../../lib/types';
+import type { NodeClickInfo } from './CANodeView';
 
 interface LearningPopupProps {
     currentComponent?: CAComponentType;
+    nodeInfo?: NodeClickInfo | null;
 }
 
-export const LearningPopup = ({ currentComponent = 'Controller' }: LearningPopupProps) => {
+export const LearningSideBarContent = ({ currentComponent = 'Controller', nodeInfo }: LearningPopupProps) => {
+    // Use nodeInfo.type for canonical lookup keys when a node is clicked.
+    const component = nodeInfo?.type ?? currentComponent;
+    const layer = nodeInfo?.layer ?? 'InterfaceAdapters';
     const { t } = useTranslation('learning');
 
     const toComponentKey = (component: CAComponentType) =>
         component.charAt(0).toLowerCase() + component.slice(1);
     
     // Convert PascalCase component type to camelCase for JSON keys
-    const componentKey = toComponentKey(currentComponent);
+    const componentKey = toComponentKey(component);
     
     // Get the layer for this component and map to palette color
-    const layer = COMPONENT_TO_LAYER[currentComponent];
     const paletteKey = LAYER_METADATA[layer].paletteKey;
     
     const diagramRelations = t(`components.${componentKey}.diagramRelations`, { returnObjects: true }) as string[];
@@ -49,4 +53,4 @@ export const LearningPopup = ({ currentComponent = 'Controller' }: LearningPopup
 };
 
 
-export default LearningPopup;
+export default LearningSideBarContent;

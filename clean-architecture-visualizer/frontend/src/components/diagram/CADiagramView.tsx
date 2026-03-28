@@ -1,7 +1,7 @@
 // This file is responsible for rendering the Clean Architecture Diagram based on the data passed in as props. 
 // It is a pure presentational component that does not contain any logic for fetching data or handling loading/error states.
 
-import { CANodeView } from './CANodeView';
+import { CANodeView, type NodeClickInfo } from './CANodeView';
 import { Edge, type EdgeRouteHint } from './Edge';
 import { CANode, CAEdge } from './../../lib/types';
 import { Container, Box, Typography } from '@mui/material';
@@ -23,6 +23,7 @@ type CADiagramViewProps = {
     database: CANode;
     edges: CAEdge[];
     areNodesInteractive?: boolean;
+    onNodeClick?: (info: NodeClickInfo) => void;
 };
 
 export function CADiagramView({
@@ -41,6 +42,7 @@ export function CADiagramView({
     database,
     edges,
     areNodesInteractive = false,
+    onNodeClick,
 }: CADiagramViewProps) {
     const diagramContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -169,9 +171,9 @@ export function CADiagramView({
                             Interface Adapters
                         </Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', height: '100%' }}>
-                            <CANodeView {...controller} isInteractive={areNodesInteractive} />
-                            <CANodeView {...presenter} isInteractive={areNodesInteractive} />
-                            <CANodeView {...viewModel} isInteractive={areNodesInteractive} />
+                            <CANodeView {...controller} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
+                            <CANodeView {...presenter} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
+                            <CANodeView {...viewModel} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
                         </Box>
                     </Box>
 
@@ -180,18 +182,18 @@ export function CADiagramView({
                             Application Business Rules
                         </Typography>
                         <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', rowGap: { xs: 0.25, sm: 0.4, md: 0.5 }, columnGap: { xs: 0.5, sm: 0.75, md: 1 } }}>
-                            <CANodeView {...inputData} isInteractive={areNodesInteractive} />
+                            <CANodeView {...inputData} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
                             <Box />
-                            <CANodeView {...inputBoundary} isInteractive={areNodesInteractive} />
-                            <Box />
-                            <Box />
-                            <CANodeView {...interactor} isInteractive={areNodesInteractive} />
-                            <CANodeView {...outputBoundary} isInteractive={areNodesInteractive} />
-                            <Box />
-                            <CANodeView {...outputData} isInteractive={areNodesInteractive} />
+                            <CANodeView {...inputBoundary} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
                             <Box />
                             <Box />
-                            <CANodeView {...dataAccessInterface} isInteractive={areNodesInteractive} />
+                            <CANodeView {...interactor} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
+                            <CANodeView {...outputBoundary} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
+                            <Box />
+                            <CANodeView {...outputData} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
+                            <Box />
+                            <Box />
+                            <CANodeView {...dataAccessInterface} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
                         </Box>
                     </Box>
 
@@ -211,7 +213,7 @@ export function CADiagramView({
                                 },
                             }}
                         >
-                            <CANodeView {...entities} isInteractive={areNodesInteractive} />
+                            <CANodeView {...entities} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
                         </Box>
                     </Box>
                 </Box>
@@ -228,18 +230,18 @@ export function CADiagramView({
 
                     <Box sx={{ display: 'grid', gridTemplateColumns: '1.1fr 2.1fr 1.1fr', columnGap: { xs: 0.5, sm: 0.75, md: 1.25 }, width: '100%', mt: { xs: -0.2, sm: -0.35, md: -0.5 } }}>
                         <Box sx={{ px: { xs: 0.5, sm: 0.75, md: 1 }, pb: { xs: 0.35, sm: 0.55, md: 0.75 } }}>
-                            <CANodeView {...view} isInteractive={areNodesInteractive} />
+                            <CANodeView {...view} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
                         </Box>
 
                         <Box sx={{ px: { xs: 0.5, sm: 0.75, md: 1 }, pb: { xs: 0.35, sm: 0.55, md: 0.75 } }}>
                             <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: { xs: 0.5, sm: 0.75, md: 1 } }}>
                                 <Box />
-                                <CANodeView {...dataAccess} isInteractive={areNodesInteractive} />
+                                <CANodeView {...dataAccess} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
                             </Box>
                         </Box>
 
                         <Box sx={{ px: { xs: 0.5, sm: 0.75, md: 1 }, pb: { xs: 0.35, sm: 0.55, md: 0.75 } }}>
-                            <CANodeView {...database} isInteractive={areNodesInteractive} />
+                            <CANodeView {...database} isInteractive={areNodesInteractive} onNodeClick={onNodeClick} />
                         </Box>
                     </Box>
                 </Box>

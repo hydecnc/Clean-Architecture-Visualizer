@@ -78,23 +78,6 @@ export interface InteractionDetail {
   edges: CAEdge[];
 }
 
-// Maps component types to their Clean Architecture layers
-export const COMPONENT_TO_LAYER: Record<CAComponentType, CALayer> = {
-  Controller: 'InterfaceAdapters',
-  Presenter: 'InterfaceAdapters',
-  View: 'Frameworks',
-  ViewModel: 'InterfaceAdapters',
-  InputBoundary: 'ApplicationBusinessRules',
-  OutputBoundary: 'ApplicationBusinessRules',
-  InputData: 'ApplicationBusinessRules',
-  OutputData: 'ApplicationBusinessRules',
-  Interactor: 'ApplicationBusinessRules',
-  Entity: 'EnterpriseBusinessRules',
-  DataAccessInterface: 'ApplicationBusinessRules',
-  DataAccess: 'Frameworks',
-  Database: 'Frameworks',
-};
-
 // --- Violation Types ---
 export interface Violation {
   id: string;
