@@ -4,7 +4,7 @@ import Header from '../components/common/Header';
 
 export default function LearningMode() {
     return (
-        <div style={{ padding: '20px' }}>
+        <div>
               <Header />
               <CADiagram />
             
