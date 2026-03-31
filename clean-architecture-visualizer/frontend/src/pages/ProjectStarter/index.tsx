@@ -60,7 +60,7 @@ const ProjectStarter = () => {
 
     return (
         <PageWrapper maxWidth="md">
-            <Box sx={{ mb: 8 }}>
+            <Box sx={{ mb: 4 }}>
                 <IconButton 
                     component={Link} 
                     to="/" 
@@ -71,8 +71,8 @@ const ProjectStarter = () => {
                 </IconButton>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <Section>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, alignItems: 'center' }}>
+                <Section sx={{ textAlign: 'center'}}>
                     <Title variant="h4">{t('startNew.title')}</Title>
                     <Description variant="h5">{t('startNew.description')}</Description>
                     <ActionCenter>
@@ -86,15 +86,14 @@ const ProjectStarter = () => {
                     </ActionCenter>
                 </Section>
 
-                <Divider />
+                <Divider sx={{ width: '100%' }}/>
 
-                <Section>
+                <Section sx={{ textAlign: 'center'}}>
                     <Title variant="h4">{t('addUseCase.title')}</Title>
                     <Description variant="h5">{t('addUseCase.description')}</Description>
                     
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                         <InputContainer>
-                            {/* Now TypeScript understands variant, component, and htmlFor */}
                             <FieldLabel 
                                 variant="body2" 
                                 component="label" 
@@ -103,7 +102,7 @@ const ProjectStarter = () => {
                                 {t('addUseCase.inputLabel')}
                             </FieldLabel>
                             <StyledTextField
-                                id="use-case-input" // This ID must match the htmlFor above
+                                id="use-case-input" 
                                 fullWidth
                                 size="small"
                                 value={useCaseName}
