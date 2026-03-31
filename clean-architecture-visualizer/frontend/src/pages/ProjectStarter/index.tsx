@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Box, Divider, IconButton } from '@mui/material';
+import { Box, Divider, IconButton, Snackbar, Alert } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import '../../i18n/config'; 
 import { useGenerateProject, useCreateUseCase } from '../../actions/useTemplate';
 import {
   PageWrapper,
@@ -16,26 +17,43 @@ import {
   StyledTextField,
 } from './layout';
 
+
 const ProjectStarter = () => {
     const { t } = useTranslation("projectStarter");
     const [useCaseName, setUseCaseName] = useState('');
     
+    // Snackbar State
+    const [snackbar, setSnackbar] = useState({ open: false, message: '' });
+
     const { mutate: triggerGenerate, isPending: isGenerating } = useGenerateProject();
     const { mutate: triggerCreateUseCase, isPending: isCreating } = useCreateUseCase();
 
     const isWorking = isGenerating || isCreating;
 
+    const handleCloseSnackbar = () => setSnackbar({ ...snackbar, open: false });
+
     const handleCreateProject = () => {
         triggerGenerate(undefined, {
-            onSuccess: (data) => console.log(data.message),
+            onSuccess: () => {
+                // Notifies the user that the base directories (app, entity, etc.) were created
+                setSnackbar({ open: true, message: t('startNew.success') });
+            },
             onError: (err) => console.error("Failed to create project", err)
         });
     };
 
     const handleAddUseCase = () => {
-        if (!useCaseName.trim()) return;
-        triggerCreateUseCase(useCaseName, {
-            onSuccess: () => setUseCaseName(''),
+        const trimmedName = useCaseName.trim();
+        if (!trimmedName) return;
+
+        triggerCreateUseCase(trimmedName, {
+            onSuccess: () => {
+                setSnackbar({ 
+                    open: true, 
+                    message: t('addUseCase.success', { name: trimmedName }) 
+                });
+                setUseCaseName(''); 
+            },
             onError: (err) => console.error("Failed to add use case", err)
         });
     };
@@ -43,13 +61,17 @@ const ProjectStarter = () => {
     return (
         <PageWrapper maxWidth="md">
             <Box sx={{ mb: 8 }}>
-                <IconButton component={Link} to="/" sx={{ color: 'text.primary', p: 0 }}>
+                <IconButton 
+                    component={Link} 
+                    to="/" 
+                    sx={{ color: 'text.primary', p: 0 }}
+                    aria-label="Home"
+                >
                     <HomeOutlinedIcon sx={{ fontSize: 48 }} />
                 </IconButton>
             </Box>
 
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {/* Section 1: Start New Project */}
                 <Section>
                     <Title variant="h4">{t('startNew.title')}</Title>
                     <Description variant="h5">{t('startNew.description')}</Description>
@@ -66,17 +88,22 @@ const ProjectStarter = () => {
 
                 <Divider />
 
-                {/* Section 2: Add New Use Case */}
                 <Section>
                     <Title variant="h4">{t('addUseCase.title')}</Title>
                     <Description variant="h5">{t('addUseCase.description')}</Description>
                     
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                         <InputContainer>
-                            <FieldLabel variant="body2">
+                            {/* Now TypeScript understands variant, component, and htmlFor */}
+                            <FieldLabel 
+                                variant="body2" 
+                                component="label" 
+                                htmlFor="use-case-input"
+                            >
                                 {t('addUseCase.inputLabel')}
                             </FieldLabel>
                             <StyledTextField
+                                id="use-case-input" // This ID must match the htmlFor above
                                 fullWidth
                                 size="small"
                                 value={useCaseName}
@@ -96,6 +123,23 @@ const ProjectStarter = () => {
                     </Box>
                 </Section>
             </Box>
+
+            {/* Success Popup */}
+            <Snackbar 
+                open={snackbar.open} 
+                autoHideDuration={4000} 
+                onClose={handleCloseSnackbar}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert 
+                    onClose={handleCloseSnackbar} 
+                    severity="success" 
+                    variant="filled"
+                    sx={{ width: '100%', borderRadius: 2 }}
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </PageWrapper>
     );
 }

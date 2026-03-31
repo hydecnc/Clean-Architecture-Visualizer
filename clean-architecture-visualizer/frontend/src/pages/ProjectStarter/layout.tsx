@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Box, Typography, Button, Container, TextField } from '@mui/material';
+import { Box, Typography, Button, Container, TextField, TypographyProps } from '@mui/material';
 
 export const PageWrapper = styled(Container)(({ theme }) => ({
   paddingTop: theme.spacing(6),
@@ -52,20 +52,24 @@ export const InputContainer = styled(Box)(() => ({
   margin: '0 auto',
 }));
 
-export const FieldLabel = styled(Typography)(({ theme }) => ({
+interface FieldLabelProps extends TypographyProps {
+  htmlFor?: string;
+}
+
+export const FieldLabel = styled(Typography)<FieldLabelProps>(({ theme }) => ({
   fontWeight: 700,
   marginBottom: theme.spacing(1),
   color: theme.palette.text.primary,
-}));
+  display: 'block', 
+})) as typeof Typography;
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     borderRadius: (theme.shape.borderRadius as number) * 2,
     backgroundColor: theme.palette.background.paper,
-
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        borderColor: theme.palette.text.primary, 
-        borderWidth: '1px',
+      borderColor: theme.palette.text.primary,
+      borderWidth: '1px',
     },
   },
 }));

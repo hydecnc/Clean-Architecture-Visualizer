@@ -13,6 +13,6 @@ export const generateProject = async () => {
  * @param useCaseName The name of the use case (e.g., "Add User")
  */
 export const createUseCase = async (useCaseName: string) => {
-  const { data } = await apiClient.post<{ message: string }>(`/template/add/${useCaseName}`);
+  const { data } = await apiClient.post<{ message: string }>(`/template/add/${encodeURIComponent(useCaseName)}`);
   return data;
 };
