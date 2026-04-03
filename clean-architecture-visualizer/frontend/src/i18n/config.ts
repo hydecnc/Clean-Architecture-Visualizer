@@ -5,10 +5,18 @@ import enHome from './locales/en/home.json';
 import enCodeViewer from './locales/en/codeViewer.json';
 import enUseCaseInteractionCode from './locales/en/useCaseInteractionCode.json';
 
+const isTestMode = 
+  import.meta.env.VITE_TEST_MODE === 'true' || 
+  new URLSearchParams(window.location.search).get('lng') === 'cimode';
+
 i18n.use(initReactI18next).init({
   resources: { en: { checker: enChecker, home: enHome, useCaseInteractionCode: enUseCaseInteractionCode, codeViewer: enCodeViewer} },
-  lng: 'en',
-  fallbackLng: 'en',
+  lng: isTestMode ? 'cimode' : 'en', 
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false,
+    },
+  // fallbackLng: 'en',
 });
 
 export default i18n;
