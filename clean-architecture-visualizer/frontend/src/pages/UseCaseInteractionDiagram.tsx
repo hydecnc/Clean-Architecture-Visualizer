@@ -1,21 +1,21 @@
 import { Link, useParams } from 'react-router-dom';
 import Header from '../components/common/Header';
-import { CADiagram } from '../components/diagram';
-import { Typography } from '@mui/material';
+import { CADiagram, Legend, SideBar } from '../components/diagram';
+import { useState } from 'react';
+import { MainViewContainer, PageContainer, Workspace } from './UseCaseInteractionCode/layout';
+import IssuesSideBarContent from '@/components/diagram/IssuesSideBarContent';
 
 export default function UseCaseInteractionDiagram() {
     const { useCaseId, interactionId } = useParams();
+    const [isOpen, setIsOpen] = useState(true);
+    
     return (
-        <div className="use-case-interaction-diagram">
+        <PageContainer>
             <Header />
-            <main className="page-content">
-                <section>
-                    <Typography variant="h4" gutterBottom align="center">
-                        {useCaseId && interactionId
-                            ? `Diagram for Use Case ${useCaseId}, Interaction ${interactionId}`
-                            : 'Explore the use case interactions and their code implementations.'}
-                    </Typography>
-                    <CADiagram />
+            <Workspace>
+                <MainViewContainer>
+                    <CADiagram/>
+                    <Legend />
                     <Link
                         to={useCaseId && interactionId
                             ? `/use-case/${useCaseId}/interaction/${interactionId}/code`
@@ -24,9 +24,13 @@ export default function UseCaseInteractionDiagram() {
                     >
                         View Use Case Interaction Code
                     </Link>
-                </section>
-            </main>
-        </div>
+                </MainViewContainer>
+
+                <SideBar isOpen={isOpen} onOpenChange={setIsOpen}>
+                    <IssuesSideBarContent/>
+                </SideBar>
+            </Workspace>
+        </PageContainer>
     );
 }
 
