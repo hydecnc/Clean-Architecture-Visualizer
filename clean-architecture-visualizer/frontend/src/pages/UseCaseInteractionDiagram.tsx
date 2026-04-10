@@ -4,8 +4,8 @@ import '../i18n/config';
 import Header from '../components/common/Header';
 import { CADiagram, Legend, SideBar } from '../components/diagram';
 import { useState } from 'react';
-import { MainViewContainer, PageContainer, Workspace } from './UseCaseInteractionCode/layout';
-import ViolationsSideBarContent from '@/components/diagram/ViolationsSideBarContent';
+import { MainViewContainer, PageContainer, Workspace } from '../components/diagram/CADiagramPageLayout';
+import ViolationsSideBarContent from '../components/diagram/ViolationsSideBarContent';
 import { CtaButton } from '../components/common/Button';
 
 export default function UseCaseInteractionDiagram() {
