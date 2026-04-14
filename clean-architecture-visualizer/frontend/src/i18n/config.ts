@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import enChecker from './locales/en/checker.json';
 import enHome from './locales/en/home.json';
 import enCommon from './locales/en/common.json';
+import enLegend from './locales/en/legend.json';
 import enCodeViewer from './locales/en/codeViewer.json';
 import enViolationsSideBarContent from './locales/en/violationsSideBarContent.json';
 import enUseCaseInteractionCode from './locales/en/useCaseInteractionCode.json';
@@ -20,7 +21,11 @@ i18n.use(initReactI18next).init({
       checker: enChecker,
       home: enHome,
       common: enCommon,
+<<<<<<< feature/finish-ca-diagram-page
       violationsSideBarContent: enViolationsSideBarContent,
+=======
+      legend: enLegend,
+>>>>>>> main
       useCaseInteractionCode: enUseCaseInteractionCode,
       useCaseInteractionDiagram: enUseCaseInteractionDiagram,
       codeViewer: enCodeViewer,
