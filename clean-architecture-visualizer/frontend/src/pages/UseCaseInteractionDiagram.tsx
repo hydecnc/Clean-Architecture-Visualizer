@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import '../i18n/config';
 import Header from '../components/common/Header';
-import { CADiagram, Legend, SideBar } from '../components/diagram';
+import { CADiagram, Legend, SideBar, type NodeClickInfo } from '../components/diagram';
 import { useState } from 'react';
 import { MainViewContainer, PageContainer, Workspace } from '../components/diagram/CADiagramPageLayout';
 import ViolationsSideBarContent from '../components/diagram/ViolationsSideBarContent';
@@ -17,13 +17,22 @@ export default function UseCaseInteractionDiagram() {
     const codeRoute = useCaseId && interactionId
         ? `/use-case/${useCaseId}/interaction/${interactionId}/code`
         : '/use-case-interaction-code';
+
+    const handleNodeClick = (info: NodeClickInfo) => {
+        if (!useCaseId || !interactionId || !info.filePath) {
+            return;
+        }
+
+        navigate(
+            `/use-case/${useCaseId}/interaction/${interactionId}/code?file=${encodeURIComponent(info.filePath)}`,
+        );
+    };
     
     return (
         <PageContainer>
             <Header
                 actions={
                     <CtaButton
-                        variant="outlined"
                         onClick={() => navigate(codeRoute)}
                         startIcon={<span>{'</>'}</span>}
                     >
@@ -33,7 +42,7 @@ export default function UseCaseInteractionDiagram() {
             />
             <Workspace>
                 <MainViewContainer>
-                    <CADiagram/>
+                    <CADiagram onNodeClick={handleNodeClick} />
                     <Legend />
                 </MainViewContainer>
 

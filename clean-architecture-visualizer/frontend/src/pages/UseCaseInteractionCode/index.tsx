@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import '../../i18n/config';
 import Header from '../../components/common/Header';
 import { FileExplorer } from '../../components/code/FileExplorer';
@@ -18,13 +18,16 @@ import { useTranslation } from 'react-i18next';
 const UseCaseInteractionCode = () => {
   const { useCaseId, interactionId } =
     useParams<{ useCaseId: string; interactionId: string }>();
+  const [searchParams] = useSearchParams();
   const { t } = useTranslation('useCaseInteractionCode');
 
   const navigate = useNavigate();
 
   const { width, startResizing } = useResizableSidebar(300);
 
-  const [activeFilePath, setActiveFilePath] = useState<string | null>(null);
+  const [activeFilePath, setActiveFilePath] = useState<string | null>(
+    searchParams.get('file'),
+  );
   const [history, setHistory] = useState<string[]>([]);
 
   const handleNavigate = (newPath: string) => {
