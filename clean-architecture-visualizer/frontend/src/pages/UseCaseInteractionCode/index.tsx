@@ -16,6 +16,8 @@ import {
 import { useResizableSidebar } from './useResizableSidebar.tsx';
 import { CtaButton } from '../../components/common/Button.tsx';
 import { useTranslation } from 'react-i18next';
+import { usePersistentBoolean } from '../../hooks/usePersistentBoolean';
+import { USE_CASE_SIDEBAR_OPEN_STORAGE_KEY } from '../../lib/storageKeys';
 
 const UseCaseInteractionCode = () => {
   const { useCaseId, interactionId } =
@@ -28,7 +30,7 @@ const UseCaseInteractionCode = () => {
   const { width, startResizing } = useResizableSidebar(300);
 
   const activeFilePath = searchParams.get('file');
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = usePersistentBoolean(USE_CASE_SIDEBAR_OPEN_STORAGE_KEY, true);
   const [history, setHistory] = useState<string[]>([]);
 
   const setFileQuery = (path: string | null) => {
