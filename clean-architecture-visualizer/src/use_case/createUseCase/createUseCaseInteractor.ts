@@ -64,7 +64,7 @@ export class CreateUseCaseinteractor implements CreateUseCaseInputBoundary {
         }
     }
 
-    newUseCase(inputData: CreateUseCaseInputData): void {
-        this.inputData = inputData;
+    newUseCase(inputData: string): void {
+        this.inputData = new CreateUseCaseInputData(inputData);
     }
 }
