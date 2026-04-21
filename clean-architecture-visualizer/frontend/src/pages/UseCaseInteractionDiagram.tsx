@@ -1,31 +1,58 @@
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import '../i18n/config';
 import Header from '../components/common/Header';
-import { CADiagram } from '../components/diagram';
+import { CADiagram, Legend, SideBar, type NodeClickInfo } from '../components/diagram';
+import { MainViewContainer, PageContainer, Workspace } from '../components/diagram/CADiagramPageLayout';
+import ViolationsSideBarContent from '../components/diagram/ViolationsSideBarContent';
+import { CtaButton } from '../components/common/Button';
+import { usePersistentBoolean } from '../hooks/usePersistentBoolean';
+import { USE_CASE_SIDEBAR_OPEN_STORAGE_KEY } from '../lib/storageKeys';
 
 export default function UseCaseInteractionDiagram() {
     const { useCaseId, interactionId } = useParams();
+    const navigate = useNavigate();
+    const [isOpen, setIsOpen] = usePersistentBoolean(USE_CASE_SIDEBAR_OPEN_STORAGE_KEY, true);
+    const { t } = useTranslation('useCaseInteractionDiagram');
+
+    const codeRoute = useCaseId && interactionId
+        ? `/use-case/${useCaseId}/interaction/${interactionId}/code`
+        : '/use-case-interaction-code';
+
+    const handleNodeClick = (info: NodeClickInfo) => {
+        if (!useCaseId || !interactionId || !info.filePath) {
+            return;
+        }
+
+        navigate(
+            `/use-case/${useCaseId}/interaction/${interactionId}/code?file=${encodeURIComponent(info.filePath)}`,
+        );
+    };
+    
     return (
-        <div className="use-case-interaction-diagram">
-            <Header />
-            <main className="page-content">
-                <section>
-                    <p>
-                        {useCaseId && interactionId
-                            ? `Diagram for Use Case ${useCaseId}, Interaction ${interactionId}`
-                            : 'Explore the use case interactions and their code implementations.'}
-                    </p>
-                    <CADiagram />
-                    <Link
-                        to={useCaseId && interactionId
-                            ? `/use-case/${useCaseId}/interaction/${interactionId}/code`
-                            : '/use-case-interaction-code'}
-                        className="btn btn-primary"
+        <PageContainer>
+            <Header
+                actions={
+                    <CtaButton
+                        variant="outlined"
+                        onClick={() => navigate(codeRoute)}
+                        startIcon={<span>{'</>'}</span>}
                     >
-                        View Use Case Interaction Code
-                    </Link>
-                </section>
-            </main>
-        </div>
+                        {t('actions.viewUseCaseInteractionCode')}
+                    </CtaButton>
+                }
+            />
+            <Workspace>
+                <MainViewContainer>
+                    <CADiagram onNodeClick={handleNodeClick} />
+                    <Legend />
+                </MainViewContainer>
+
+                <SideBar isOpen={isOpen} onOpenChange={setIsOpen}>
+                    <ViolationsSideBarContent interactionId={interactionId} />
+                </SideBar>
+            </Workspace>
+        </PageContainer>
     );
 }
 
