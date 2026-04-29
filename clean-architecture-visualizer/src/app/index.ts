@@ -22,6 +22,10 @@ import { SessionDBAccess } from "../data_access/sessionDBAccess.js";
 import { GraphVerificationController } from '../interface_adapter/graphVerification/graphVerificationController.js';
 import { GraphVerificationInteractor } from '../use_case/graphVerification/graphVerificationInteractor.js';
 import { startServer } from "../server/server.js";
+import { CreateUseCaseinteractor } from "../use_case/createUseCase/createUseCaseInteractor.js";
+import { InitProjectInteractor } from "../use_case/initProject/initProjectInteractor.js";
+import { CreateUseCaseController } from "../interface_adapter/createUseCase/createUseCaseController.js";
+import { InitProjectContoller } from "../interface_adapter/intiProject/initProjectContoller.js";
 import { exec, spawn } from "child_process";
 import chalk from "chalk";
 
@@ -32,7 +36,11 @@ const app = new AppBuilder()
   .withCleanArchAccess(new CleanArchAccess())
   .withSessionDBAccess(new SessionDBAccess())
   .buildGraphVerificationInteractor(GraphVerificationInteractor)
+  .buildCreateUseCaseInteractor(CreateUseCaseinteractor)
+  .buildInitProjectInteractor(InitProjectInteractor)
   .buildGraphVerificationController(GraphVerificationController)
+  .buildCreateUseCaseController(CreateUseCaseController)
+  .buildInitProjectController(InitProjectContoller)
 
 program.version(packageJson.version);
 
@@ -109,9 +117,6 @@ program
           }
         });
       }
-
-      // app.runGraphVerification();
-
     }, 2500);
   });
 
@@ -122,7 +127,19 @@ program
     app.runCLIGraphVerification();
   })
 
-program.parse(process.argv);
+program
+  .command('init')
+  .description('Create the template for a new CSC207 project')
+  .action(async() => {
+    app.runInitProject();
+  })
+
+program
+  .command('usecase <name>')
+  .description('Create the template for a new use case')
+  .action(async(name: string) => {
+    app.runCreateUseCase(name);
+  })
 
 program
   .command('end')
@@ -130,3 +147,5 @@ program
   .action(async() => {
     
   })
+
+program.parse(process.argv);
