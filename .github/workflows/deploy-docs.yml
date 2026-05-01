@@ -10,6 +10,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -29,5 +31,6 @@ jobs:
         working-directory: docs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GIT_USER: ${{ secrets.GITHUB_TOKEN }}
+          GIT_USER: git
+          GIT_PASS: ${{ secrets.GITHUB_TOKEN }}
           USE_SSH: false
