@@ -183,6 +183,6 @@ export class AppBuilder {
     runCreateUseCase(name: string) {
         this.createUseCaseInteractor?.newUseCase(name);
         this.createUseCaseController?.execute();
-        console.log(chalk.green("Usecase " + name + " has been created."));
+        console.log(chalk.green(`Usecase ${name} has been created.`));
     }
 }

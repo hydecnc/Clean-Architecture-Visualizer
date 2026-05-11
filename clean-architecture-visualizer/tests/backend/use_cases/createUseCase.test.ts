@@ -1,4 +1,4 @@
-import { describe, it, expect, jest, beforeEach } from '@jest/globals';
+import { describe, it, expect, jest, beforeEach } from "@jest/globals";
 import { CreateUseCaseinteractor } from "../../../src/use_case/createUseCase/createUseCaseInteractor.js";
 import type { FileAccessInterface } from "../../../src/data_access/fileAccessInterface.js";
 import type { CreateUseCaseInputData } from "../../../src/use_case/createUseCase/createUseCaseInputData.js";
@@ -15,6 +15,7 @@ describe("CreateUseCaseInteractor", () => {
         mockFileAccess = {
             getCurrentPath: jest.fn<any>(),
             bfsFindDir: jest.fn<any>(),
+            exists: jest.fn<any>(),
             createDirectory: jest.fn<any>(),
             createFile: jest.fn<any>(),
         } as any;
@@ -42,7 +43,7 @@ describe("CreateUseCaseInteractor", () => {
         // Assert
         // Check if name was cleaned (spaces removed)
         const expectedName = "LoginUser";
-        
+
         // Verify directory creation
         expect(mockFileAccess.createDirectory).toHaveBeenCalledWith("/root/src/use_case/LoginUser");
         expect(mockFileAccess.createDirectory).toHaveBeenCalledWith("/root/src/interface_adapter/LoginUser");
@@ -50,7 +51,7 @@ describe("CreateUseCaseInteractor", () => {
         // Verify key files were created
         expect(mockFileAccess.createFile).toHaveBeenCalledWith(expect.stringContaining("LoginUserInputBoundary.java"));
         expect(mockFileAccess.createFile).toHaveBeenCalledWith(expect.stringContaining("LoginUserController.java"));
-        
+
         // Verify success signal
         expect(mockOutputData.setOutputData).toHaveBeenCalledWith(true);
     });
@@ -85,3 +86,4 @@ describe("CreateUseCaseInteractor", () => {
         expect(mockOutputData.setOutputData).toHaveBeenCalledWith(false);
     });
 });
+
