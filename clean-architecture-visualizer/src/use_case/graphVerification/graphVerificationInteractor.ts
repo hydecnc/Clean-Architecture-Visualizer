@@ -140,7 +140,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
      * @returns 
      */
     private resolveNode(importPath: string): cleanNode | null {
-        importPath = importPath.toLowerCase();
+        importPath = importPath.toLowerCase().replace(/_/g, "");
         if (importPath.includes("viewmodel")) return "viewModel"; // must be verified before 'view'
         if (importPath.includes("view")) return "view";
         if (importPath.includes("database")) return "database";
@@ -163,7 +163,7 @@ export class GraphVerificationInteractor implements GraphVerificationInputBounda
      * @returns 
      */
     private resolveLayer(importPath: string): cleanLayer | undefined {
-        importPath = importPath.toLowerCase();
+        importPath = importPath.toLowerCase().replace(/_/g, "");
         if (importPath.includes("viewmodel")) return "interfaceAdapters"; // must be verified before 'view'
         if (importPath.includes("view")) return "frameworksAndDrivers";
         if (importPath.includes("database")) return "frameworksAndDrivers";

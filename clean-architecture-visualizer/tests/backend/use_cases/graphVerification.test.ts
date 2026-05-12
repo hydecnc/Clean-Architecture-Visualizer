@@ -49,6 +49,45 @@ describe("Ensures that resolveLayer correctly identifies layers from their file 
     );
 });
 
+describe("Ensures that resolveLayer correctly identifies layers from their file path, snake_case", () => {
+
+    const genericInteractor = new GraphVerificationInteractor(
+        genericFileAccess,
+        genericNeighbourAccess,
+        genericDBAccess
+    );
+
+    const testCases: [string, string][] = [
+        ["frameworksAndDrivers",    "/src/views/test/test_view.ts"],
+        ["interfaceAdapters",       "/src/views/test/test_view_model.ts"],
+        ["frameworksAndDrivers",    "/src/database/test/test_database.ts"],
+        ["enterpriseBusinessRules", "/src/entity/test/test_entities.ts"],
+        ["applicationBusinessRules","/src/data_access/test/test_access_interface.ts"],
+        ["frameworksAndDrivers",    "/src/data_access/test/test_access.ts"],
+        ["interfaceAdapters",       "/src/interface_adapters/test/test_controller.ts"],
+        ["interfaceAdapters",       "/src/interface_adapters/test/test_presenter.ts"],
+        ["applicationBusinessRules","/src/use_case/test/test_input_boundary.ts"],
+        ["applicationBusinessRules","/src/use_case/test/test_input_data.ts"],
+        ["applicationBusinessRules","/src/use_case/test/test_output_boundary.ts"],
+        ["applicationBusinessRules","/src/use_case/test/test_output_data.ts"],
+        ["applicationBusinessRules","/src/use_case/test/test_interactor.ts"],
+    ];
+
+    it.each(testCases)(
+        "resolves '%s' from path '%s'", (expectedLayer, path) => {
+            const result = (genericInteractor as any).resolveLayer(path);
+            expect(result).toBe(expectedLayer);
+        }
+    );
+
+    it.each(["/src/types/testTypes.ts", "/src/.gitkeep"])(
+        "returns undefined from the path %s", (path) => {
+            const result = (genericInteractor as any).resolveLayer(path);
+            expect(result).toBeUndefined();
+        }
+    );
+});
+
 describe("Ensures that verifyOutNeighbours correctly classifies the number of Clean violations", () => {
 
     function getAllViolations(graphs: useCaseGraph[]): number {
