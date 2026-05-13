@@ -3,9 +3,9 @@ import type { CreateUseCaseInputBoundary } from "./createUseCaseInputBoundary.js
 import { CreateUseCaseInputData } from "./createUseCaseInputData.js";
 import { CreateUseCaseOutputData } from "./createUseCaseOutputData.js";
 import path from "path";
+import chalk from "chalk";
 
 export class CreateUseCaseinteractor implements CreateUseCaseInputBoundary {
-    
     private readonly fileAccess: FileAccessInterface;
     private inputData: CreateUseCaseInputData;
     private readonly outputData: CreateUseCaseOutputData;
@@ -22,20 +22,28 @@ export class CreateUseCaseinteractor implements CreateUseCaseInputBoundary {
 
     async execute(): Promise<void> {
         try {
-            const useCaseName = this.inputData.getUseCaseName().split(" ").join('');
+            const useCaseName = this.inputData.getUseCaseName().split(" ").join("");
             const currPath = await this.fileAccess.getCurrentPath();
 
             // Find base directories
-            let useCaseDir = await this.fileAccess.bfsFindDir(currPath, "use_case");
-            let interfaceAdapterDir = await this.fileAccess.bfsFindDir(currPath, "interface_adapter");
+            const useCaseDir = await this.fileAccess.bfsFindDir(currPath, "use_case");
+            const interfaceAdapterDir = await this.fileAccess.bfsFindDir(currPath, "interface_adapter");
 
             if (!useCaseDir || !interfaceAdapterDir) {
-                throw new Error("Could not find use_case or interface_adapter, try initiating project first");
+                throw new Error("Could not find use_case or interface_adapter, try initiating project first.");
             }
 
             const targetUseCasePath = path.join(useCaseDir, useCaseName);
             const targetInterfacePath = path.join(interfaceAdapterDir, useCaseName);
 
+            // Check if files already exist
+            const useCaseExists = await this.fileAccess.exists(targetUseCasePath);
+            const interfaceExists = await this.fileAccess.exists(targetInterfacePath);
+            if (useCaseExists || interfaceExists) {
+                throw new Error(`Usecase ${useCaseName} already exists.`);
+            }
+
+            // Create use case
             await this.fileAccess.createDirectory(targetUseCasePath);
             await this.fileAccess.createDirectory(targetInterfacePath);
 
@@ -57,9 +65,10 @@ export class CreateUseCaseinteractor implements CreateUseCaseInputBoundary {
             await createJavaFile(targetInterfacePath, "Presenter");
 
             this.outputData.setOutputData(true);
-
         } catch (error) {
-            console.error(error);
+            if (error instanceof Error) {
+                console.log(chalk.red(error.message));
+            }
             this.outputData.setOutputData(false);
         }
     }
