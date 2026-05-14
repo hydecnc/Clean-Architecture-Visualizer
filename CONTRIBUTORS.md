@@ -1,6 +1,6 @@
 Anna Myllyniemi,
 Eric Xu,
 Matthew Dahlgren,
-Seokjin Yoo
+Seokjin Yoo,
 Vithu Thayalan,
 Vivian Deng
