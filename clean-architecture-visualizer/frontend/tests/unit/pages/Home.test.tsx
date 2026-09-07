@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '../../test-utils';
+import { describe, expect, it } from 'vitest';
 import Home from '@/pages/Home';
+import { fireEvent, render, screen } from '../../test-utils';
 
 describe('Home Page', () => {
   it('renders the main title from translations', () => {

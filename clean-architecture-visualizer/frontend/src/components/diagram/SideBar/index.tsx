@@ -1,13 +1,13 @@
-import { useState, type ReactNode } from 'react';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { IconButton, Box } from '@mui/material';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { Box, IconButton } from '@mui/material';
+import { type ReactNode, useState } from 'react';
 import {
+  SIDEBAR_GUTTER_WIDTH_CLOSED,
+  SIDEBAR_GUTTER_WIDTH_OPEN,
   SidebarContainer,
   SidebarGutter,
   SidebarPanel,
-  SIDEBAR_GUTTER_WIDTH_OPEN,
-  SIDEBAR_GUTTER_WIDTH_CLOSED,
 } from './styles';
 
 interface SidebarProps {

@@ -5,7 +5,9 @@ import type { CreateModuleUseCaseInputData } from './createModuleUseCaseInputDat
 import type { CreateModuleUseCaseOutputBoundary } from './createModuleUseCaseOutputBoundary.js';
 import type { CreateModuleUseCaseOutputData } from './createModuleUseCaseOutputData.js';
 
-export class CreateModuleUseCaseInteractor implements CreateModuleUseCaseInputBoundary {
+export class CreateModuleUseCaseInteractor
+  implements CreateModuleUseCaseInputBoundary
+{
   constructor(
     private readonly fileAccess: FileAccessInterface,
     private readonly presenter: CreateModuleUseCaseOutputBoundary,
@@ -20,7 +22,7 @@ export class CreateModuleUseCaseInteractor implements CreateModuleUseCaseInputBo
       const usecase = this.inputData.getUseCaseName().split(' ').join('');
       const currPath = await this.fileAccess.getCurrentPath();
       // Find the language directory -- makes assumption only one directory is named after language
-      let extension: string | undefined = undefined;
+      let extension: string | undefined;
       const languageToExtension = new Map<string, string>([
         ['python', 'py'],
         ['java', 'java'],

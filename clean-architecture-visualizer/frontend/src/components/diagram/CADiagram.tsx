@@ -2,19 +2,19 @@
 // The actual rendering of the diagram is delegated to CADiagramView, which is a pure presentational component that receives all
 // the data it needs as props.
 
-import { Typography, Container, CircularProgress } from '@mui/material';
+import { CircularProgress, Container, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import { CADiagramView } from './CADiagramView';
-import { type NodeClickInfo } from './CANodeView';
+import type { cleanLayer } from '../../../../src/types/cleanLayer';
+import type { cleanNode } from '../../../../src/types/cleanNode';
+import { useInteraction } from '../../actions/useAnalysis';
 import type {
-  CANode,
   CAComponentType,
   CALayer,
+  CANode,
   InteractionDetail,
 } from '../../lib/types';
-import { useInteraction } from '../../actions/useAnalysis';
-import type { cleanNode } from '../../../../src/types/cleanNode';
-import type { cleanLayer } from '../../../../src/types/cleanLayer';
+import { CADiagramView } from './CADiagramView';
+import type { NodeClickInfo } from './CANodeView';
 
 const componentLayerMap: Record<CAComponentType, CALayer> = {
   Controller: 'InterfaceAdapters',

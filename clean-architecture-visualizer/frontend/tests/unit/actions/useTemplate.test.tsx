@@ -1,15 +1,15 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { http, HttpResponse } from 'msw';
 import { QueryClient } from '@tanstack/react-query';
-import { renderHook, waitFor } from '../../test-utils';
+import { HttpResponse, http } from 'msw';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
-  useGenerateProject,
-  useGenerateModuleProject,
-  useCreateUseCase,
   useCreateFeature,
   useCreateModuleUseCase,
+  useCreateUseCase,
+  useGenerateModuleProject,
+  useGenerateProject,
 } from '@/actions/useTemplate';
 import { server } from '@/mocks/server';
+import { renderHook, waitFor } from '../../test-utils';
 
 describe('Template Hooks', () => {
   beforeEach(() => {

@@ -1,10 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import type { ReactNode } from 'react';
-import Dropdown, { DropdownOption } from './Dropdown.tsx';
 import { Box, Paper } from '@mui/material';
+import type { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useAnalysisSummary } from '../../actions/useAnalysis.ts';
-import { Interaction, UseCase } from '../../lib/types.ts';
+import type { Interaction, UseCase } from '../../lib/types.ts';
+import Dropdown, { type DropdownOption } from './Dropdown.tsx';
 
 type HeaderProps = {
   actions?: ReactNode;

@@ -1,4 +1,3 @@
-import { getAnalysisSummary, getInteractionDetails } from './analysis.api';
 import type {
   AnalysisSummary,
   CAComponentType,
@@ -14,6 +13,7 @@ import {
   LAYER_METADATA,
   NODE_STATUSES,
 } from '../lib/types';
+import { getAnalysisSummary, getInteractionDetails } from './analysis.api';
 
 const validComponentTypes: ReadonlySet<CAComponentType> = new Set(
   COMPONENT_TYPES

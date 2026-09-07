@@ -8,11 +8,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packageJsonPath = path.resolve(__dirname, '../../package.json');
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
 
-import { AppBuilder } from './appBuilder.js';
-import { FileAccess } from '../data_access/fileAccess.js';
 import { CleanArchAccess } from '../data_access/cleanArchInfoAccess.js';
+import { FileAccess } from '../data_access/fileAccess.js';
 import { SessionDBAccess } from '../data_access/sessionDBAccess.js';
 import { startCommand } from '../server/startCommand.js';
+import { AppBuilder } from './appBuilder.js';
 
 const program = new Command();
 

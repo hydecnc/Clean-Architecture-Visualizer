@@ -1,14 +1,14 @@
 import React from 'react';
 import '../i18n/config';
-import { useTranslation, Trans } from 'react-i18next';
-import { Box, Typography, Container, IconButton } from '@mui/material';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { Box, Container, IconButton, Typography } from '@mui/material';
+import { Trans, useTranslation } from 'react-i18next';
+import CaveLogo from '../assets/locales/logo_dark.svg';
 import HomeButtonGrid from '../components/common/HomeButtonGrid';
 import InfoDialog from '../components/common/InfoDialog';
-import CaveLogo from '../assets/locales/logo_dark.svg';
 
 const Home = () => {
   const { t } = useTranslation('home');

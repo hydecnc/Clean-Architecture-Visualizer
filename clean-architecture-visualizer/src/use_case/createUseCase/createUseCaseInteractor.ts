@@ -19,7 +19,7 @@ export class CreateUseCaseInteractor implements CreateUseCaseInputBoundary {
       const currPath = await this.fileAccess.getCurrentPath();
 
       // Find the language directory -- makes assumption only one directory is named after language
-      let extension: string | undefined = undefined;
+      let extension: string | undefined;
       const languageToExtension = new Map<string, string>([
         ['python', 'py'],
         ['java', 'java'],

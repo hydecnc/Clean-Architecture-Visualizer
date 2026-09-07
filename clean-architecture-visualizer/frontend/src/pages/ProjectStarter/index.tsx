@@ -1,20 +1,20 @@
+import { Alert, Box, Divider, Snackbar } from '@mui/material';
 import { useState } from 'react';
-import { Box, Divider, Snackbar, Alert } from '@mui/material';
 import '../../i18n/config';
 import { useTranslation } from 'react-i18next';
 import {
-  useGenerateProject,
   useCreateUseCase,
+  useGenerateProject,
 } from '../../actions/useTemplate';
 import {
-  PageWrapper,
-  Section,
-  Title,
   ActionCenter,
   DarkButton,
-  InputContainer,
   FieldLabel,
+  InputContainer,
+  PageWrapper,
+  Section,
   StyledTextField,
+  Title,
 } from './layout';
 
 const ProjectStarter = () => {

@@ -1,8 +1,10 @@
-import type { GetFilesWithViolationsInputBoundary } from './getFilesWithViolationsInputBoundary.js';
 import type { SessionDBAccessInterface } from '../../data_access/sessionDBAccessInterface.js';
+import type { GetFilesWithViolationsInputBoundary } from './getFilesWithViolationsInputBoundary.js';
 import type { GetFilesWithViolationsOutputData } from './getFilesWithViolationsOutputData.js';
 
-export class GetFilesWithViolationsInteractor implements GetFilesWithViolationsInputBoundary {
+export class GetFilesWithViolationsInteractor
+  implements GetFilesWithViolationsInputBoundary
+{
   constructor(
     private readonly db: SessionDBAccessInterface,
     private readonly outputdata: GetFilesWithViolationsOutputData
@@ -14,7 +16,7 @@ export class GetFilesWithViolationsInteractor implements GetFilesWithViolationsI
     const violatingNodesPaths = violatingNodes.map((node) => node.filePath);
 
     const filteredViolatingNodePaths = violatingNodesPaths.filter(
-      (path): path is string => path != undefined
+      (path): path is string => path !== undefined
     );
 
     const uniqueNodesPaths = [...new Set(filteredViolatingNodePaths)];

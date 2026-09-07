@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import '../i18n/config';
-import { Link } from 'react-router-dom';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 import CircularProgress from '@mui/material/CircularProgress';
-import { CheckCircleIcon, ErrorIcon } from '../assets/icons';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import { Link } from 'react-router-dom';
 import { useAnalysisSummary } from '../actions/useAnalysis';
-import { UseCase, Interaction } from '../lib/types';
+import { CheckCircleIcon, ErrorIcon } from '../assets/icons';
+import type { Interaction, UseCase } from '../lib/types';
 
 export default function CheckerMode() {
   const { t } = useTranslation('checker');

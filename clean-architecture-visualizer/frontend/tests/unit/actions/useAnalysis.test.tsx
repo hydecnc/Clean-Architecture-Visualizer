@@ -1,12 +1,12 @@
-import { describe, it, expect } from 'vitest';
-import { http, HttpResponse } from 'msw';
-import { renderHook, waitFor } from '../../test-utils';
+import { HttpResponse, http } from 'msw';
+import { describe, expect, it } from 'vitest';
 import {
   useAnalysisSummary,
   useInteraction,
   useInteractionViolations,
 } from '@/actions/useAnalysis';
 import { server } from '@/mocks/server';
+import { renderHook, waitFor } from '../../test-utils';
 
 describe('Analysis Hooks', () => {
   it('useAnalysisSummary fetches summary successfully', async () => {

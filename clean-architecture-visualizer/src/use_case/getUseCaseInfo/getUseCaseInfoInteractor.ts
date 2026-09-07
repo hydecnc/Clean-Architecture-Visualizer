@@ -1,7 +1,7 @@
 import type { SessionDBAccessInterface } from '../../data_access/sessionDBAccessInterface.js';
 import type { cleanLayer } from '../../types/cleanLayer.js';
 import type { cleanNode } from '../../types/cleanNode.js';
-import type { NodeStorage, EdgeStorage } from '../../types/sessionData.js';
+import type { EdgeStorage, NodeStorage } from '../../types/sessionData.js';
 import type { GetUseCaseInfoInputBoundary } from './getUseCaseInfoInputBoundary.js';
 import type { GetUseCaseInfoInputData } from './getUseCaseInfoInputData.js';
 import type { GetUseCaseInfoOutputData } from './getUseCaseInfoOutputData.js';

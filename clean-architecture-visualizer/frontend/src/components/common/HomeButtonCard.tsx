@@ -1,6 +1,6 @@
+import { Box, Card, CardActionArea } from '@mui/material';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Box, Card, CardActionArea } from '@mui/material';
 import styles from './HomeButtonCard.module.css';
 
 interface HomeButtonCardProps {

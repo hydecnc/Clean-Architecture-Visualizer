@@ -3,15 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useInteractionViolations } from '../../../actions/useAnalysis';
 import type { Violation } from '../../../lib/types';
 import {
-  ViolationsContainer,
-  ViolationsRoot,
   ViolationField,
   ViolationFieldLabel,
   ViolationFileContext,
+  ViolationsContainer,
+  ViolationsList,
+  ViolationsRoot,
+  ViolationsTitle,
   ViolationType,
   ViolationValue,
-  ViolationsList,
-  ViolationsTitle,
 } from './styles';
 
 type ViolationsSideBarContentProps = {

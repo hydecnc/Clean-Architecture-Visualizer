@@ -1,15 +1,17 @@
-import type { GetProjectSummaryInputBoundary } from './getProjectSummaryInputBoundary.js';
 import type { SessionDBAccessInterface } from '../../data_access/sessionDBAccessInterface.js';
+import type { GetProjectSummaryInputBoundary } from './getProjectSummaryInputBoundary.js';
 import type { GetProjectSummaryOutputData } from './getProjectSummaryOutputData.js';
 
-export class GetProjectSummaryInteractor implements GetProjectSummaryInputBoundary {
+export class GetProjectSummaryInteractor
+  implements GetProjectSummaryInputBoundary
+{
   constructor(
     private readonly db: SessionDBAccessInterface,
     private readonly outputData: GetProjectSummaryOutputData
   ) {}
 
   async getProjectSummary(): Promise<void> {
-    let result: { [key: string]: any } = {};
+    const result: { [key: string]: any } = {};
 
     // populate output JSON response
     const count = this.db.getNumUseCases();

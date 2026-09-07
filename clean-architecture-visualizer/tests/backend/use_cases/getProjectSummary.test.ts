@@ -1,11 +1,11 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
-import { GetProjectSummaryInteractor } from '../../../src/use_case/getProjectSummary/getProjectSummaryInteractor.js';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { SessionDBAccess } from '../../../src/data_access/sessionDBAccess.js';
 import { useCaseGraph } from '../../../src/entity/useCaseGraph.js';
-import type { GetProjectSummaryOutputData } from '../../../src/use_case/getProjectSummary/getProjectSummaryOutputData.js';
-import type { SessionData } from '../../../src/types/sessionData.js';
-import type { neighbourMap } from '../../../src/types/neighbourMap.js';
 import type { cleanNode } from '../../../src/types/cleanNode.js';
+import type { neighbourMap } from '../../../src/types/neighbourMap.js';
+import type { SessionData } from '../../../src/types/sessionData.js';
+import { GetProjectSummaryInteractor } from '../../../src/use_case/getProjectSummary/getProjectSummaryInteractor.js';
+import type { GetProjectSummaryOutputData } from '../../../src/use_case/getProjectSummary/getProjectSummaryOutputData.js';
 
 const genericDBAccess = new SessionDBAccess();
 

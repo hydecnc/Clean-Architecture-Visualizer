@@ -1,5 +1,5 @@
-import React from 'react';
 import { Grid } from '@mui/material';
+import type React from 'react';
 import HomeButtonCard from './HomeButtonCard';
 
 interface GridItem {

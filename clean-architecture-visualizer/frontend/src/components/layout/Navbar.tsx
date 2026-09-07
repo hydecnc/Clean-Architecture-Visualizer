@@ -1,8 +1,8 @@
 'use client';
 
-import { Link, useLocation } from 'react-router-dom';
 // import { useState, useRef, useEffect } from 'react'
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { asset } from '../../lib/asset';
 import styles from './Navbar.module.css';
 

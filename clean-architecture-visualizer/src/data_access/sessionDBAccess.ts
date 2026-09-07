@@ -1,14 +1,14 @@
-import type {
-  SessionData,
-  FileStorage,
-  EdgeStorage,
-  NodeStorage,
-} from '../types/sessionData.js';
-import type { useCaseGraph } from '../entity/useCaseGraph.js';
-import type { SessionDBAccessInterface } from './sessionDBAccessInterface.js';
 import { SessionDB } from '../database/sessionDb.js';
-import type { cleanNode } from '../types/cleanNode.js';
+import type { useCaseGraph } from '../entity/useCaseGraph.js';
 import type { cleanLayer } from '../types/cleanLayer.js';
+import type { cleanNode } from '../types/cleanNode.js';
+import type {
+  EdgeStorage,
+  FileStorage,
+  NodeStorage,
+  SessionData,
+} from '../types/sessionData.js';
+import type { SessionDBAccessInterface } from './sessionDBAccessInterface.js';
 
 export class SessionDBAccess implements SessionDBAccessInterface {
   private readonly db: SessionDB<SessionData>;

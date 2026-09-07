@@ -1,12 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AppGlobalStyles } from './styles/AppGlobalStyles';
-import Home from './pages/Home';
+import { ThemeProvider } from '@mui/material/styles';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import AppLayout from './layouts/AppLayout';
+import { lightTheme } from './lib';
 import CheckerMode from './pages/CheckerMode';
+import Home from './pages/Home';
 import ProjectStarter from './pages/ProjectStarter';
 import UseCaseInteractionDiagram from './pages/UseCaseInteractionDiagram';
-import AppLayout from './layouts/AppLayout';
-import { ThemeProvider } from '@mui/material/styles';
-import { lightTheme } from './lib';
+import { AppGlobalStyles } from './styles/AppGlobalStyles';
 import './i18n/config';
 
 export default function App() {

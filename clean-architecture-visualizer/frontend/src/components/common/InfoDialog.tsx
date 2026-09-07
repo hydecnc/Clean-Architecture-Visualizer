@@ -1,15 +1,15 @@
-import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {
-  Dialog,
-  DialogContent,
-  Typography,
-  IconButton,
   Box,
   Button,
+  Dialog,
+  DialogContent,
+  IconButton,
   Stack,
+  Typography,
 } from '@mui/material';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import CloseIcon from '@mui/icons-material/Close';
+import type React from 'react';
 
 interface InfoDialogProps {
   open: boolean;

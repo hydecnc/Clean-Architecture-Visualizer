@@ -1,8 +1,8 @@
-import { describe, it, expect, jest, beforeEach } from '@jest/globals';
-import { InitProjectInteractor } from '../../../src/use_case/initProject/initProjectInteractor.js';
+import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { FileAccessInterface } from '../../../src/data_access/fileAccessInterface.js';
-import type { InitProjectOutputData } from '../../../src/use_case/initProject/initProjectOutputData.js';
 import { InitProjectInputData } from '../../../src/use_case/initProject/initProjectInputData.js';
+import { InitProjectInteractor } from '../../../src/use_case/initProject/initProjectInteractor.js';
+import type { InitProjectOutputData } from '../../../src/use_case/initProject/initProjectOutputData.js';
 
 describe('InitProjectInteractor', () => {
   let mockFileAccess: jest.Mocked<FileAccessInterface>;

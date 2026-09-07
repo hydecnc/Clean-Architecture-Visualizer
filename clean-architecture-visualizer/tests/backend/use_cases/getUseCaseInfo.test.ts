@@ -1,7 +1,7 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
-import { GetUseCaseInfoInteractor } from '../../../src/use_case/getUseCaseInfo/getUseCaseInfoInteractor.js';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { SessionDBAccess } from '../../../src/data_access/sessionDBAccess.js';
 import type { GetUseCaseInfoInputData } from '../../../src/use_case/getUseCaseInfo/getUseCaseInfoInputData.js';
+import { GetUseCaseInfoInteractor } from '../../../src/use_case/getUseCaseInfo/getUseCaseInfoInteractor.js';
 import type { GetUseCaseInfoOutputData } from '../../../src/use_case/getUseCaseInfo/getUseCaseInfoOutputData.js';
 
 const genericDBAccess = new SessionDBAccess();

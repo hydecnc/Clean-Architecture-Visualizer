@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest';
-import { http, HttpResponse } from 'msw';
-import { server } from '@/mocks/server';
+import { HttpResponse, http } from 'msw';
+import { describe, expect, it } from 'vitest';
 import {
   getAnalysisSummary,
   getInteractionDetails,
   getViolations,
 } from '@/api/analysis.api';
+import { server } from '@/mocks/server';
 
 describe('Analysis API', () => {
   it('getAnalysisSummary returns data from /analysis/summary', async () => {

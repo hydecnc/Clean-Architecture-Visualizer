@@ -1,17 +1,17 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import '../../../i18n/config';
+import type { ArrowHeadType, CAEdge, CANode } from '../../../lib/types';
 import { CANodeView } from '../CANodeView';
 import { Edge } from '../Edge';
-import type { ArrowHeadType, CANode, CAEdge } from '../../../lib/types';
 import {
   EdgeAnchorEnd,
   EdgeAnchorStart,
   EdgeLegendItem,
   EdgePreview,
-  LegendMedia,
   LegendItems,
   LegendLabel,
+  LegendMedia,
   LegendRoot,
   NodeLegendItem,
 } from './styles';

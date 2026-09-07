@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import type { FileAccessInterface } from '../../../src/data_access/fileAccessInterface.js';
 import { CreateFeatureInputData } from '../../../src/use_case/createFeature/createFeatureInputData.js';
-import { CreateFeatureOutputData } from '../../../src/use_case/createFeature/createFeatureOutputData.js';
 import { CreateFeatureInteractor } from '../../../src/use_case/createFeature/createFeatureInteractor.js';
 import type { CreateFeatureOutputBoundary } from '../../../src/use_case/createFeature/createFeatureOutputBoundary.js';
+import { CreateFeatureOutputData } from '../../../src/use_case/createFeature/createFeatureOutputData.js';
 
 describe('CreateFeatureInteractor', () => {
   let mockFileAccess: jest.Mocked<FileAccessInterface>;

@@ -1,12 +1,12 @@
-import { styled } from '@mui/material/styles';
 import {
   Box,
-  Typography,
   Button,
   Container,
   TextField,
-  TypographyProps,
+  Typography,
+  type TypographyProps,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export const PageWrapper = styled(Container)(({ theme }) => ({
   paddingTop: theme.spacing(6),

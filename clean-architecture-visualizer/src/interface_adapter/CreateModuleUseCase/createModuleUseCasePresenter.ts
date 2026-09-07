@@ -2,7 +2,9 @@ import chalk from 'chalk';
 import type { CreateModuleUseCaseOutputBoundary } from '../../use_case/createModuleUseCase/createModuleUseCaseOutputBoundary.js';
 import type { CreateModuleUseCaseOutputData } from '../../use_case/createModuleUseCase/createModuleUseCaseOutputData.js';
 
-export class CreateModuleUseCasePresenter implements CreateModuleUseCaseOutputBoundary {
+export class CreateModuleUseCasePresenter
+  implements CreateModuleUseCaseOutputBoundary
+{
   private error: string | null = null;
 
   constructor(private readonly outputData: CreateModuleUseCaseOutputData) {}

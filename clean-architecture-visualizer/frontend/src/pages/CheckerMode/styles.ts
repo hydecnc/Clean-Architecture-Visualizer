@@ -1,5 +1,5 @@
-import { SxProps, Theme } from '@mui/material/styles';
-import { CSSProperties } from 'react';
+import type { SxProps, Theme } from '@mui/material/styles';
+import type { CSSProperties } from 'react';
 
 export const styles = {
   container: (theme: Theme): SxProps<Theme> => ({

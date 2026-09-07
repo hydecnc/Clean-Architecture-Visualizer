@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
-import { NodePaper, type LayerColor } from './styles';
-import { LAYER_METADATA, type CANode } from '../../../lib/types';
+import { type CANode, LAYER_METADATA } from '../../../lib/types';
+import { type LayerColor, NodePaper } from './styles';
 
 export type NodeClickInfo = {
   id: string;

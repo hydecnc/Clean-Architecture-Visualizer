@@ -1,13 +1,13 @@
-import { describe, it, expect } from 'vitest';
-import { http, HttpResponse } from 'msw';
-import { server } from '@/mocks/server';
+import { HttpResponse, http } from 'msw';
+import { describe, expect, it } from 'vitest';
 import {
-  generateProject,
-  generateModuleProject,
-  createUseCase,
   createFeature,
   createModuleUseCase,
+  createUseCase,
+  generateModuleProject,
+  generateProject,
 } from '@/api/template.api';
+import { server } from '@/mocks/server';
 
 describe('Template API', () => {
   it('generateProject posts to /template/generate/java and returns the response data', async () => {

@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach } from '@jest/globals';
-import { GetFilesWithViolationsInteractor } from '../../../src/use_case/getFilesWithViolations/getFilesWithViolationsInteractor.js';
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { SessionDBAccess } from '../../../src/data_access/sessionDBAccess.js';
+import { GetFilesWithViolationsInteractor } from '../../../src/use_case/getFilesWithViolations/getFilesWithViolationsInteractor.js';
 import type { GetFilesWithViolationsOutputData } from '../../../src/use_case/getFilesWithViolations/getFilesWithViolationsOutputData.js';
 
 const genericDBAccess = new SessionDBAccess();

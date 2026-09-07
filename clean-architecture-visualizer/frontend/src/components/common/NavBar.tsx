@@ -1,6 +1,6 @@
-import { Link, NavLink } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { Link, NavLink } from 'react-router-dom';
 import CaveLogo from '../../assets/locales/logo_dark.svg';
 
 export const NAV_BAR_HEIGHT = 64;

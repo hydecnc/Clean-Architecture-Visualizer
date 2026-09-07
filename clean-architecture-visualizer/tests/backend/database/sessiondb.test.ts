@@ -1,6 +1,6 @@
+import { afterEach, beforeEach, describe, expect, it } from '@jest/globals';
 import fs from 'fs';
-import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
-import { SessionDB, SESSION_FILE } from '../../../src/database/sessionDb.js';
+import { SESSION_FILE, SessionDB } from '../../../src/database/sessionDb.js';
 import type { SessionData } from '../../../src/types/sessionData.js';
 
 describe('SessionDB', () => {

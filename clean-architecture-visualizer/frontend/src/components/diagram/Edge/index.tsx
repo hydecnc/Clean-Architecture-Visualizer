@@ -1,7 +1,7 @@
-import { useEffect, useId, useMemo, useState } from 'react';
-import type { RefObject } from 'react';
 import { useTheme } from '@mui/material/styles';
-import type { ArrowHeadType, CANode, CAEdge } from '../../../lib/types';
+import type { RefObject } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
+import type { ArrowHeadType, CAEdge, CANode } from '../../../lib/types';
 import { EdgeSvg } from './styles';
 
 type RectSide = 'left' | 'right' | 'top' | 'bottom';
@@ -103,6 +103,7 @@ export function Edge({
     return `url(#${markerId})`;
   }, [arrowHeadType, markerId]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: layoutVersion is exclusively used to trigger re-measure
   useEffect(() => {
     let animationFrameId: number | null = null;
 
@@ -195,7 +196,6 @@ export function Edge({
     startNode.id,
     endNode.id,
     routeHint?.mode,
-    routeHint?.viaRatio,
     routeHint?.startSide,
     routeHint?.endSide,
     layoutVersion,
