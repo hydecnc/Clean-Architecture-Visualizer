@@ -3,14 +3,14 @@ name: CI
 on:
   push:
     branches: [main]
-    paths:
-      - 'clean-architecture-visualizer/**'
-      - '.github/workflows/ci.yml'
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
   pull_request:
     branches: [main]
-    paths:
-      - 'clean-architecture-visualizer/**'
-      - '.github/workflows/ci.yml'
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
 
 jobs:
   jest-tests:
@@ -39,10 +39,6 @@ jobs:
         with:
           working-directory: ./clean-architecture-visualizer/frontend
 
-      - name: Run lint
-        run: npm run lint
-        working-directory: ./clean-architecture-visualizer/frontend
-
       - name: Run type check
         run: npm run type-check
         working-directory: ./clean-architecture-visualizer/frontend
@@ -51,20 +47,16 @@ jobs:
         run: npm run test:unit
         working-directory: ./clean-architecture-visualizer/frontend
 
-  format-checks:
+  biome:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - uses: ./.github/actions/setup-node-env
-
-      - uses: ./.github/actions/setup-node-env
+      - name: Checkout
+        uses: actions/checkout@v5
         with:
-          working-directory: ./clean-architecture-visualizer/frontend
+          persist-credentials: false
 
-      - name: Run lint
-        run: npm run lint
+      - name: Setup Biome
+      - uses: ./.github/actions/setup-node-env
 
-      - name: Run format check
-        run: npm run format:check
+      - name: Run Biome
+        run: npm run check:ci -- --reporter=github
