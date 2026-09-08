@@ -1,6 +1,6 @@
 {
   "name": "clean-architecture-visualizer-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "setup": "npm run build",
     "build": "tsc --project clean-architecture-visualizer/tsconfig.json && node -e \"require('fs').copyFileSync('clean-architecture-visualizer/package.json', 'clean-architecture-visualizer/dist/package.json')\" && npm run build_frontend",

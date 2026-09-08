@@ -6,29 +6,19 @@ sidebar_position: 1
 
 Welcome to the Cave developer docs! Follow the steps below to get your local environment set up and ready to contribute.
 
-## 1. Fork & Clone the Repository
+## 1. Clone the Repository
 
 First, fork the main repository on GitHub, then clone your fork and set up the remotes:
 
 ```bash
 # Clone your fork
-git clone https://github.com/<your-username>/Clean-Architecture-Visualizer.git
+git clone https://github.com/CA-Visualizer-for-Education/Clean-Architecture-Visualizer.git
 
 # Navigate into the project
 cd Clean-Architecture-Visualizer
-
-# Set the original repo as upstream
-git remote add upstream https://github.com/CA-Visualizer-for-Education/Clean-Architecture-Visualizer.git
-
-# Verify your remotes
-git remote -v
-# origin    https://github.com/<your-username>/Clean-Architecture-Visualizer.git (fetch)
-# origin    https://github.com/<your-username>/Clean-Architecture-Visualizer.git (push)
-# upstream  https://github.com/CA-Visualizer-for-Education/Clean-Architecture-Visualizer.git (fetch)
-# upstream  https://github.com/CA-Visualizer-for-Education/Clean-Architecture-Visualizer.git (push)
 ```
 
-## 2. Working with Branches & Remotes
+## 2. Working with Branches and Rebasing
 
 Always create a new branch for your changes — never commit directly to `main`.
 
@@ -47,16 +37,87 @@ git push origin my-feature-branch
 **Pull the latest changes from the main repo:**
 
 ```bash
-git pull upstream main
+git pull main
 ```
 
-**Keep your fork's main branch up to date:**
+To keep a readable and linear commit history we use [conventional commits](https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13). Each commit should be a task that can be summarized by its commit to make the lives of reviewers easier.
+
+Let's say you have 5 commits that acheive one thing. We can check it out with
 
 ```bash
-git checkout main
-git pull upstream main
-git push origin main
+git rebase -i HEAD~5
 ```
+
+This lets us see that last five commits
+
+```bash
+pick a1 commit1
+pick a2 commit2
+pick a3 commit3
+pick a4 commit4
+pick a5 commit5
+```
+
+There are 4 useful keywords to know:
+
+```bash
+pick
+fixup
+drop
+reword
+```
+
+`pick` means that we use the commit as is. Whereas `fixup` merges the work done in a commit while keeping the name and root of the previous commit. E.g.:
+
+```bash
+pick a1 commit1
+pick a2 commit2
+pick a3 commit3
+fixup a4 commit4
+pick a5 commit5
+```
+
+becomes,
+
+```bash
+pick a1 commit1
+pick a2 commit2
+pick a3 commit3
+pick a5 commit5
+```
+
+with no loss of work.
+
+Let's say the work done in `a5` was unnessecary or you want to restart on a part of a task
+
+`git rebase -i HEAD~4`
+
+```bash
+pick a1 commit1
+pick a2 commit2
+pick a3 commit3
+drop a5 commit5
+```
+
+becomes 
+
+```bash
+pick a1 commit1
+pick a2 commit2
+pick a3 commit3
+```
+
+We are able to chain `fixup` and reword allows us to rename a commit. Say we want to merge all the remaining work on a branch and name it conventionally we can do:
+
+`git rebase -i HEAD~3`
+
+```bash
+reword a1 commit1
+fixup a2 commit2
+fixup a3 commit3
+```
+
+Then we will only have one commit left on the branch named conventionally.
 
 ## 3. Navigate into the Project
 
